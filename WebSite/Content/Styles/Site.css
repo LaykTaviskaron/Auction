@@ -22,3 +22,34 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.text-with-image {
+    float: left;
+    margin: 7px 15px 7px 0;
+}
+
+.no-padding {
+    padding: 0px !important;
+}
+
+.feature-image {
+    width: 120px;
+    height: 120px;
+}
+
+.feature-container {
+    display: inline-block;
+    text-align: center;
+}
+
+.feature-text {
+    display: block;
+}
+
+.feature-row {
+    margin-bottom: 25px;
+}
+
+.header {
+    text-align: center;
+}
