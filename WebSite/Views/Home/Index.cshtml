@@ -1,20 +1,21 @@
-﻿<div class="col-sm-12">
+﻿@using WebSite.Controllers
+<div class="col-sm-12">
     <div class="row">
         <img class="text-with-image col-sm-4" src="~/Content/Images/main-page-image.jpg" />
         <h1 class="col-sm-12">Join for selling and bying online</h1>
         <p class="col-sm-12">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <br />
         <div class="col-sm-3 no-padding">
-            <input class="btn btn-primary" type="button" value="Login" />
+            @Html.ActionLink("Log in", "Login", "Account", htmlAttributes: new {id = "loginLink", @class = "btn btn-primary" })
         </div>
         <div class="col-sm-3 no-padding">
-            <input class="btn btn-primary" type="button" value="Register" />
+            @Html.ActionLink("Register", "Register", "Account", htmlAttributes: new {id = "registerLink", @class = "btn btn-primary"})
         </div>
         <br />
         <br />
         <br />
         <div class="col-sm-3 no-padding">
-            <a>Reset password</a>
+            @Html.ActionLink("Reset password", "ResetPassword", "Account", htmlAttributes: new { id = "registerLink", @class = "btn btn-primary" })
         </div>
     </div>
 </div>
