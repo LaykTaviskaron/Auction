@@ -35,7 +35,5 @@ namespace WebSite
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<NotificcationType> NotificcationTypes { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
-
-        public System.Data.Entity.DbSet<WebSite.Models.FeatureViewModel> FeatureViewModels { get; set; }
     }
 }

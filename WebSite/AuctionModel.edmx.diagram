@@ -4,31 +4,31 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="4bc8905a315e40e7bad181e681508c7b" Name="Diagram1" ZoomLevel="64">
-        <EntityTypeShape EntityType="AuctionModel.Account" Width="1.5" PointX="0.75" PointY="4.125" />
-        <EntityTypeShape EntityType="AuctionModel.Bet" Width="1.5" PointX="8.25" PointY="4.25" />
-        <EntityTypeShape EntityType="AuctionModel.BetType" Width="1.5" PointX="6" PointY="0.875" />
-        <EntityTypeShape EntityType="AuctionModel.Category" Width="1.5" PointX="3.75" PointY="1" />
-        <EntityTypeShape EntityType="AuctionModel.CategoryFeature" Width="1.5" PointX="1.5" PointY="8.75" />
-        <EntityTypeShape EntityType="AuctionModel.Feedback" Width="1.5" PointX="3" PointY="4.625" />
-        <EntityTypeShape EntityType="AuctionModel.Item" Width="1.5" PointX="6" PointY="3.25" />
-        <EntityTypeShape EntityType="AuctionModel.Notification" Width="1.5" PointX="11.25" PointY="4.375" />
-        <EntityTypeShape EntityType="AuctionModel.NotificcationType" Width="1.5" PointX="9" PointY="1.875" />
-        <EntityTypeShape EntityType="AuctionModel.Specification" Width="1.5" PointX="3.75" PointY="8.875" />
-        <AssociationConnector Association="AuctionModel.R_13" />
-        <AssociationConnector Association="AuctionModel.R_15" />
-        <AssociationConnector Association="AuctionModel.R_2" />
-        <AssociationConnector Association="AuctionModel.R_20" />
-        <AssociationConnector Association="AuctionModel.R_6" />
-        <AssociationConnector Association="AuctionModel.R_14" />
-        <AssociationConnector Association="AuctionModel.R_16" />
-        <AssociationConnector Association="AuctionModel.R_17" />
-        <AssociationConnector Association="AuctionModel.R_18" />
-        <AssociationConnector Association="AuctionModel.R_3" />
-        <AssociationConnector Association="AuctionModel.R_19" />
-        <AssociationConnector Association="AuctionModel.R_5" />
-        <AssociationConnector Association="AuctionModel.R_9" />
-        <AssociationConnector Association="AuctionModel.R_7" />
+      <Diagram DiagramId="c39e3d7b37aa477abe041cee265c0674" Name="Diagram1">
+        <EntityTypeShape EntityType="AuctionModel.Account" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Bet" Width="1.5" PointX="8.25" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.BetType" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Category" Width="1.5" PointX="3.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.CategoryFeature" Width="1.5" PointX="1.5" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Feedback" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Item" Width="1.5" PointX="6" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Notification" Width="1.5" PointX="11.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.NotificcationType" Width="1.5" PointX="9" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AuctionModel.Specification" Width="1.5" PointX="3.75" PointY="9.75" IsExpanded="true" />
+        <AssociationConnector Association="AuctionModel.R_13" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_15" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_2" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_20" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_6" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_14" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_16" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_17" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_18" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_3" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_19" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_5" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_9" ManuallyRouted="false" />
+        <AssociationConnector Association="AuctionModel.R_7" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

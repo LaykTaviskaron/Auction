@@ -7,14 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebSite
 {
     using System;
     using System.Collections.Generic;
-    
+    using WebSite.Models;
+
     public partial class Bet
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,16 +20,14 @@ namespace WebSite
         {
             this.Items = new HashSet<Item>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+    
         public System.Guid Id { get; set; }
         public Nullable<System.Guid> ItemId { get; set; }
         public Nullable<System.Guid> BuyerId { get; set; }
         public Nullable<decimal> Amout { get; set; }
         public Nullable<byte> BetTypeId { get; set; }
     
-        public virtual Account Account { get; set; }
+        public virtual ApplicationUser Account { get; set; }
         public virtual Item Item { get; set; }
         public virtual BetType BetType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

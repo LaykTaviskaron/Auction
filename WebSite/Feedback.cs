@@ -7,23 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebSite
 {
     using System;
     using System.Collections.Generic;
-    
+    using WebSite.Models;
+
     public partial class Feedback
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
         public System.Guid Id { get; set; }
         public Nullable<byte> Rate { get; set; }
         public string Description { get; set; }
         public Nullable<System.Guid> UserId { get; set; }
     
-        public virtual Account Account { get; set; }
+        public virtual ApplicationUser Account { get; set; }
     }
 }

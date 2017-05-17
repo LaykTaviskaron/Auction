@@ -30,7 +30,7 @@ namespace WebSite.Controllers
                 Items = this.DbContext.Items.Where(x => itemIds.Contains(x.Id)).ToList(),
                 UsersBets = bets,
                 HighestBets = highestBets,
-                Accounts = this.DbContext.Accounts.ToList()
+                Accounts = this.DbContext.Users.ToList()
             };
 
             ViewData.Add(new KeyValuePair<string, object>("usersBets", items));

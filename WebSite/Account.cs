@@ -7,10 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebSite
 {
     using System;
@@ -27,10 +23,7 @@ namespace WebSite
             this.Feedbacks = new HashSet<Feedback>();
             this.Notifications = new HashSet<Notification>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [DefaultValue("newsequentialid()")]
-        [Key]
+    
         public System.Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

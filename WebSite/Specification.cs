@@ -7,9 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebSite
 {
     using System;
@@ -22,9 +19,7 @@ namespace WebSite
         {
             this.Items = new HashSet<Item>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+    
         public System.Guid Id { get; set; }
         public string SelectedValue { get; set; }
         public Nullable<System.Guid> CategoryFeatureId { get; set; }
