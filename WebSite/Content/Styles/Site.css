@@ -18,8 +18,7 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select {
     max-width: 280px;
 }
 
@@ -52,4 +51,31 @@ textarea {
 
 .header {
     text-align: center;
+}
+
+.horizontal-scroll {
+    width: 30em;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.create-item-form img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+}
+
+.create-item-form .description {
+    width: 100%;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+.create-item-form .create-btn {
+    float: right;
+}
+
+.fix-select-margin {
+    margin-left: 5px;
 }

@@ -1,0 +1,19 @@
+﻿@model WebSite.Models.FeatureViewModel
+
+@foreach (var feature in ViewBag.Features)
+{
+    <div class="row form-group">
+        <div class="col-sm-4">
+            @feature.Name
+        </div>
+        <div class="col-sm-8">
+            <select class="form-control fix-select-margin" name="feature-@feature.Id">
+                <option value="" disabled selected>Select a feature</option>
+                @foreach (var value in feature.PosibleValues)
+                {
+                    <option>@value</option>
+                }
+            </select>
+        </div>
+    </div>
+}

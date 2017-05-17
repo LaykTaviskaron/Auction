@@ -1,0 +1,142 @@
+﻿@using System.Web.Mvc.Html
+@using WebSite.Models
+@model WebSite.Item
+
+@{
+    ViewBag.Title = "Create new lot";
+}
+
+<h2>Create new lot</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="create-item-form">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-8">
+            <div class="row form-group">
+                <div class="col-sm-4 text-center">
+                    <img src="@ViewBag.DefaultImage" alt="image" />
+                    <input type="button" value="Add image" class="btn btn-default" />
+                </div>
+                <div class="col-sm-8">
+                    <div class="row form-group">
+                        <div class="col-sm-4 no-padding">
+                            Select a category
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", @onchange = "getFeatures()", @id = "categoryId" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="target"></div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-4 no-padding">
+                            Minimal aviable bet
+                        </div>
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.MinBet, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MinBet, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        <div class="col-sm-4 no-padding">
+                            Aviable to
+                        </div>
+                        <div class="col-md-8">
+                            <div class='input-group date' id='datetimepicker'>
+                                @Html.EditorFor(model => model.DueDateTime, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.DueDateTime, "", new {@class = "text-danger"})
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @*<div class="row form-group">
+                    <div class="col-sm-4">
+                        CHECKBOXES
+                    </div>
+                </div>*@
+            <div class="row form-group">
+                <div class="row">
+                    General description
+                </div>
+                <div class="row">
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control description" })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>   
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-defaul create-btnt" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('#datetimepicker').datetimepicker();
+        });
+    });
+
+    function getFeatures() {
+        var id = $("#categoryId").val();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetFeatures", "Items")',
+            data: { categoryId: id },
+            success: function (viewHTML) {
+                $(".target").html(viewHTML);
+            },
+            error: function (errorData) { console.log(errorData); }
+        });
+    }
+</script>
+
+@helper GetFeatures(byte? selectedCategory, List<FeatureViewModel> features)
+{
+    if (selectedCategory == null)
+    {
+        return;
+    }
+
+    var featuresForCategory = features.Where(x => x.CategoryId == selectedCategory.Value);
+
+    foreach (var feature in featuresForCategory)
+    {
+        <div class="row form-group">
+            <div class="col-sm-4">
+                @feature.Name
+            </div>
+            <select class="form-control" name="feature-@feature.Id">
+                <option value="" disabled selected>Select a category</option>
+                @foreach (var value in feature.PosibleValues)
+                {
+                    <option>@value</option>
+                }
+            </select>
+        </div>
+    }
+}
