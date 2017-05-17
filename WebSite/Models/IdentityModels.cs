@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System.Collections.Generic;
 
 namespace WebSite.Models
 {
@@ -22,7 +21,7 @@ namespace WebSite.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("Auction", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
@@ -30,17 +29,5 @@ namespace WebSite.Models
         {
             return new ApplicationDbContext();
         }
-
-        public virtual DbSet<Bet> Bets { get; set; }
-        public virtual DbSet<BetType> BetTypes { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<CategoryFeature> CategoryFeatures { get; set; }
-        public virtual DbSet<Feedback> Feedbacks { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
-        public virtual DbSet<Notification> Notifications { get; set; }
-        public virtual DbSet<NotificcationType> NotificcationTypes { get; set; }
-        public virtual DbSet<Specification> Specifications { get; set; }
-
-        public System.Data.Entity.DbSet<WebSite.Models.FeatureViewModel> FeatureViewModels { get; set; }
     }
 }

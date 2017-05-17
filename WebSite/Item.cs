@@ -7,12 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace WebSite
 {
     using System;
     using System.Collections.Generic;
-    using WebSite.Models;
-
+    
     public partial class Item
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +23,9 @@ namespace WebSite
             this.Bets = new HashSet<Bet>();
             this.Notifications = new HashSet<Notification>();
         }
-    
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public System.Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -35,9 +39,9 @@ namespace WebSite
         public Nullable<bool> IsReceived { get; set; }
         public Nullable<System.Guid> BuyerId { get; set; }
         public Nullable<System.Guid> HighestBetId { get; set; }
-        public string Image { get; set; }
     
-        public virtual ApplicationUser Account1 { get; set; }
+        public virtual Account Account { get; set; }
+        public virtual Account Account1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bet> Bets { get; set; }
         public virtual Bet Bet { get; set; }

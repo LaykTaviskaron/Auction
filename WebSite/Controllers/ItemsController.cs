@@ -34,7 +34,7 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Item item = this.DbContext.Items.FirstOrDefault(x => x.Id == id);
+            Item item = this.DbContext.Items.Find(id);
             if (item == null)
             {
                 return HttpNotFound();
@@ -45,8 +45,8 @@ namespace WebSite.Controllers
         // GET: Items/Create
         public ActionResult Create()
         {
-            ViewBag.BuyerId = new SelectList(this.DbContext.Users, "Id", "FirstName");
-            ViewBag.SellerId = new SelectList(this.DbContext.Users, "Id", "FirstName");
+            ViewBag.BuyerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName");
+            ViewBag.SellerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName");
             ViewBag.HighestBetId = new SelectList(this.DbContext.Bets, "Id", "Id");
             ViewBag.CategoryId = new SelectList(this.DbContext.Categories, "Id", "Name");
             ViewBag.FeatureId = new SelectList(this.DbContext.Specifications, "Id", "");
@@ -102,8 +102,8 @@ namespace WebSite.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BuyerId = new SelectList(this.DbContext.Users, "Id", "FirstName", item.BuyerId);
-            ViewBag.SellerId = new SelectList(this.DbContext.Users, "Id", "FirstName", item.SellerId);
+            ViewBag.BuyerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName", item.BuyerId);
+            ViewBag.SellerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName", item.SellerId);
             ViewBag.HighestBetId = new SelectList(this.DbContext.Bets, "Id", "Id", item.HighestBetId);
             ViewBag.CategoryId = new SelectList(this.DbContext.Categories, "Id", "Name", item.CategoryId);
             ViewBag.FeatureId = new SelectList(this.DbContext.Specifications, "Id", "SelectedValue", item.FeatureId);
@@ -117,13 +117,13 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Item item = this.DbContext.Items.FirstOrDefault(x => x.Id == id);
+            Item item = this.DbContext.Items.Find(id);
             if (item == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.BuyerId = new SelectList(this.DbContext.Users, "Id", "FirstName", item.BuyerId);
-            ViewBag.SellerId = new SelectList(this.DbContext.Users, "Id", "FirstName", item.SellerId);
+            ViewBag.BuyerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName", item.BuyerId);
+            ViewBag.SellerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName", item.SellerId);
             ViewBag.HighestBetId = new SelectList(this.DbContext.Bets, "Id", "Id", item.HighestBetId);
             ViewBag.CategoryId = new SelectList(this.DbContext.Categories, "Id", "Name", item.CategoryId);
             ViewBag.FeatureId = new SelectList(this.DbContext.Specifications, "Id", "SelectedValue", item.FeatureId);
@@ -143,8 +143,8 @@ namespace WebSite.Controllers
                 this.DbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BuyerId = new SelectList(this.DbContext.Users, "Id", "FirstName", item.BuyerId);
-            ViewBag.SellerId = new SelectList(this.DbContext.Users, "Id", "FirstName", item.SellerId);
+            ViewBag.BuyerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName", item.BuyerId);
+            ViewBag.SellerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName", item.SellerId);
             ViewBag.HighestBetId = new SelectList(this.DbContext.Bets, "Id", "Id", item.HighestBetId);
             ViewBag.CategoryId = new SelectList(this.DbContext.Categories, "Id", "Name", item.CategoryId);
             ViewBag.FeatureId = new SelectList(this.DbContext.Specifications, "Id", "SelectedValue", item.FeatureId);
@@ -158,7 +158,7 @@ namespace WebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Item item = this.DbContext.Items.FirstOrDefault(x => x.Id == id);
+            Item item = this.DbContext.Items.Find(id);
             if (item == null)
             {
                 return HttpNotFound();
@@ -171,7 +171,7 @@ namespace WebSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Item item = this.DbContext.Items.FirstOrDefault(x => x.Id == id);
+            Item item = this.DbContext.Items.Find(id);
             this.DbContext.Items.Remove(item);
             this.DbContext.SaveChanges();
             return RedirectToAction("Index");

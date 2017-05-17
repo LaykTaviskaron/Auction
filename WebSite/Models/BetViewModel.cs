@@ -13,6 +13,6 @@ namespace WebSite.Models
 
         public List<HighestBetModel> HighestBets { get; set; }
 
-        public List<ApplicationUser> Accounts { get; set; }
+        public List<Account> Accounts { get; set; }
     }
 }
