@@ -69,12 +69,12 @@
           <Property Name="IsAvailable" Type="bit" />
           <Property Name="SellerId" Type="uniqueidentifier" />
           <Property Name="CategoryId" Type="tinyint" />
-          <Property Name="FeatureId" Type="uniqueidentifier" />
           <Property Name="MinBet" Type="decimal" Precision="12" Scale="2" />
           <Property Name="IsPayed" Type="bit" />
           <Property Name="IsReceived" Type="bit" />
           <Property Name="BuyerId" Type="uniqueidentifier" />
           <Property Name="HighestBetId" Type="uniqueidentifier" />
+          <Property Name="Image" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -100,6 +100,7 @@
           <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
           <Property Name="SelectedValue" Type="nvarchar(max)" />
           <Property Name="CategoryFeatureId" Type="uniqueidentifier" />
+          <Property Name="ItemId" Type="uniqueidentifier" />
         </EntityType>
         <Association Name="R_13">
           <End Role="Account" Type="Self.Account" Multiplicity="0..1" />
@@ -209,6 +210,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="R_23">
+          <End Role="Item" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="Specifications" Type="Self.Specifications" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Specifications">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_3">
           <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
           <End Role="Item" Type="Self.Item" Multiplicity="*" />
@@ -254,18 +267,6 @@
             </Principal>
             <Dependent Role="Notification">
               <PropertyRef Name="NotificationTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_9">
-          <End Role="Specifications" Type="Self.Specifications" Multiplicity="0..1" />
-          <End Role="Item" Type="Self.Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Specifications">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="FeatureId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -316,6 +317,10 @@
             <End Role="Account" EntitySet="Account" />
             <End Role="Feedback" EntitySet="Feedback" />
           </AssociationSet>
+          <AssociationSet Name="R_23" Association="Self.R_23">
+            <End Role="Item" EntitySet="Item" />
+            <End Role="Specifications" EntitySet="Specifications" />
+          </AssociationSet>
           <AssociationSet Name="R_3" Association="Self.R_3">
             <End Role="Category" EntitySet="Category" />
             <End Role="Item" EntitySet="Item" />
@@ -332,10 +337,6 @@
             <End Role="NotificcationType" EntitySet="NotificcationType" />
             <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
-          <AssociationSet Name="R_9" Association="Self.R_9">
-            <End Role="Specifications" EntitySet="Specifications" />
-            <End Role="Item" EntitySet="Item" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -348,21 +349,12 @@
           <EntitySet Name="Categories" EntityType="AuctionModel.Category" />
           <EntitySet Name="CategoryFeatures" EntityType="AuctionModel.CategoryFeature" />
           <EntitySet Name="Feedbacks" EntityType="AuctionModel.Feedback" />
-          <EntitySet Name="Items" EntityType="AuctionModel.Item" />
           <EntitySet Name="Notifications" EntityType="AuctionModel.Notification" />
           <EntitySet Name="NotificcationTypes" EntityType="AuctionModel.NotificcationType" />
           <EntitySet Name="Specifications" EntityType="AuctionModel.Specification" />
-          <AssociationSet Name="R_13" Association="AuctionModel.R_13">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Item" EntitySet="Items" />
-          </AssociationSet>
           <AssociationSet Name="R_15" Association="AuctionModel.R_15">
             <End Role="Account" EntitySet="Accounts" />
             <End Role="Bet" EntitySet="Bets" />
-          </AssociationSet>
-          <AssociationSet Name="R_2" Association="AuctionModel.R_2">
-            <End Role="Account" EntitySet="Accounts" />
-            <End Role="Item" EntitySet="Items" />
           </AssociationSet>
           <AssociationSet Name="R_20" Association="AuctionModel.R_20">
             <End Role="Account" EntitySet="Accounts" />
@@ -372,40 +364,49 @@
             <End Role="Account" EntitySet="Accounts" />
             <End Role="Notification" EntitySet="Notifications" />
           </AssociationSet>
-          <AssociationSet Name="R_14" Association="AuctionModel.R_14">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="Bet" EntitySet="Bets" />
-          </AssociationSet>
           <AssociationSet Name="R_16" Association="AuctionModel.R_16">
             <End Role="BetType" EntitySet="BetTypes" />
+            <End Role="Bet" EntitySet="Bets" />
+          </AssociationSet>
+          <AssociationSet Name="R_18" Association="AuctionModel.R_18">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="CategoryFeature" EntitySet="CategoryFeatures" />
+          </AssociationSet>
+          <AssociationSet Name="R_19" Association="AuctionModel.R_19">
+            <End Role="CategoryFeature" EntitySet="CategoryFeatures" />
+            <End Role="Specification" EntitySet="Specifications" />
+          </AssociationSet>
+          <AssociationSet Name="R_7" Association="AuctionModel.R_7">
+            <End Role="NotificcationType" EntitySet="NotificcationTypes" />
+            <End Role="Notification" EntitySet="Notifications" />
+          </AssociationSet>
+          <EntitySet Name="Items" EntityType="AuctionModel.Item" />
+          <AssociationSet Name="R_13" Association="AuctionModel.R_13">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="R_2" Association="AuctionModel.R_2">
+            <End Role="Account" EntitySet="Accounts" />
+            <End Role="Item" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="R_14" Association="AuctionModel.R_14">
+            <End Role="Item" EntitySet="Items" />
             <End Role="Bet" EntitySet="Bets" />
           </AssociationSet>
           <AssociationSet Name="R_17" Association="AuctionModel.R_17">
             <End Role="Bet" EntitySet="Bets" />
             <End Role="Item" EntitySet="Items" />
           </AssociationSet>
-          <AssociationSet Name="R_18" Association="AuctionModel.R_18">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="CategoryFeature" EntitySet="CategoryFeatures" />
-          </AssociationSet>
           <AssociationSet Name="R_3" Association="AuctionModel.R_3">
             <End Role="Category" EntitySet="Categories" />
             <End Role="Item" EntitySet="Items" />
           </AssociationSet>
-          <AssociationSet Name="R_19" Association="AuctionModel.R_19">
-            <End Role="CategoryFeature" EntitySet="CategoryFeatures" />
+          <AssociationSet Name="R_23" Association="AuctionModel.R_23">
+            <End Role="Item" EntitySet="Items" />
             <End Role="Specification" EntitySet="Specifications" />
           </AssociationSet>
           <AssociationSet Name="R_5" Association="AuctionModel.R_5">
             <End Role="Item" EntitySet="Items" />
-            <End Role="Notification" EntitySet="Notifications" />
-          </AssociationSet>
-          <AssociationSet Name="R_9" Association="AuctionModel.R_9">
-            <End Role="Specification" EntitySet="Specifications" />
-            <End Role="Item" EntitySet="Items" />
-          </AssociationSet>
-          <AssociationSet Name="R_7" Association="AuctionModel.R_7">
-            <End Role="NotificcationType" EntitySet="NotificcationTypes" />
             <End Role="Notification" EntitySet="Notifications" />
           </AssociationSet>
         </EntityContainer>
@@ -418,11 +419,11 @@
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Rate" Type="Byte" />
           <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Items" Relationship="AuctionModel.R_13" FromRole="Account" ToRole="Item" />
           <NavigationProperty Name="Bets" Relationship="AuctionModel.R_15" FromRole="Account" ToRole="Bet" />
-          <NavigationProperty Name="Items1" Relationship="AuctionModel.R_2" FromRole="Account" ToRole="Item" />
           <NavigationProperty Name="Feedbacks" Relationship="AuctionModel.R_20" FromRole="Account" ToRole="Feedback" />
           <NavigationProperty Name="Notifications" Relationship="AuctionModel.R_6" FromRole="Account" ToRole="Notification" />
+          <NavigationProperty Name="Items" Relationship="AuctionModel.R_13" FromRole="Account" ToRole="Item" />
+          <NavigationProperty Name="Items1" Relationship="AuctionModel.R_2" FromRole="Account" ToRole="Item" />
         </EntityType>
         <EntityType Name="Bet">
           <Key>
@@ -434,8 +435,8 @@
           <Property Name="Amout" Type="Decimal" Precision="12" Scale="2" />
           <Property Name="BetTypeId" Type="Byte" />
           <NavigationProperty Name="Account" Relationship="AuctionModel.R_15" FromRole="Bet" ToRole="Account" />
-          <NavigationProperty Name="Item" Relationship="AuctionModel.R_14" FromRole="Bet" ToRole="Item" />
           <NavigationProperty Name="BetType" Relationship="AuctionModel.R_16" FromRole="Bet" ToRole="BetType" />
+          <NavigationProperty Name="Item" Relationship="AuctionModel.R_14" FromRole="Bet" ToRole="Item" />
           <NavigationProperty Name="Items" Relationship="AuctionModel.R_17" FromRole="Bet" ToRole="Item" />
         </EntityType>
         <EntityType Name="BetType">
@@ -477,31 +478,6 @@
           <Property Name="UserId" Type="Guid" />
           <NavigationProperty Name="Account" Relationship="AuctionModel.R_20" FromRole="Feedback" ToRole="Account" />
         </EntityType>
-        <EntityType Name="Item">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DueDateTime" Type="DateTime" Precision="3" />
-          <Property Name="IsAvailable" Type="Boolean" />
-          <Property Name="SellerId" Type="Guid" />
-          <Property Name="CategoryId" Type="Byte" />
-          <Property Name="FeatureId" Type="Guid" />
-          <Property Name="MinBet" Type="Decimal" Precision="12" Scale="2" />
-          <Property Name="IsPayed" Type="Boolean" />
-          <Property Name="IsReceived" Type="Boolean" />
-          <Property Name="BuyerId" Type="Guid" />
-          <Property Name="HighestBetId" Type="Guid" />
-          <NavigationProperty Name="Account" Relationship="AuctionModel.R_13" FromRole="Item" ToRole="Account" />
-          <NavigationProperty Name="Account1" Relationship="AuctionModel.R_2" FromRole="Item" ToRole="Account" />
-          <NavigationProperty Name="Bets" Relationship="AuctionModel.R_14" FromRole="Item" ToRole="Bet" />
-          <NavigationProperty Name="Bet" Relationship="AuctionModel.R_17" FromRole="Item" ToRole="Bet" />
-          <NavigationProperty Name="Category" Relationship="AuctionModel.R_3" FromRole="Item" ToRole="Category" />
-          <NavigationProperty Name="Notifications" Relationship="AuctionModel.R_5" FromRole="Item" ToRole="Notification" />
-          <NavigationProperty Name="Specification" Relationship="AuctionModel.R_9" FromRole="Item" ToRole="Specification" />
-        </EntityType>
         <EntityType Name="Notification">
           <Key>
             <PropertyRef Name="Id" />
@@ -512,8 +488,8 @@
           <Property Name="ReceiverId" Type="Guid" />
           <Property Name="NotificationTypeId" Type="Byte" />
           <NavigationProperty Name="Account" Relationship="AuctionModel.R_6" FromRole="Notification" ToRole="Account" />
-          <NavigationProperty Name="Item" Relationship="AuctionModel.R_5" FromRole="Notification" ToRole="Item" />
           <NavigationProperty Name="NotificcationType" Relationship="AuctionModel.R_7" FromRole="Notification" ToRole="NotificcationType" />
+          <NavigationProperty Name="Item" Relationship="AuctionModel.R_5" FromRole="Notification" ToRole="Item" />
         </EntityType>
         <EntityType Name="NotificcationType">
           <Key>
@@ -531,20 +507,9 @@
           <Property Name="SelectedValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CategoryFeatureId" Type="Guid" />
           <NavigationProperty Name="CategoryFeature" Relationship="AuctionModel.R_19" FromRole="Specification" ToRole="CategoryFeature" />
-          <NavigationProperty Name="Items" Relationship="AuctionModel.R_9" FromRole="Specification" ToRole="Item" />
+          <Property Name="ItemId" Type="Guid" />
+          <NavigationProperty Name="Item" Relationship="AuctionModel.R_23" FromRole="Specification" ToRole="Item" />
         </EntityType>
-        <Association Name="R_13">
-          <End Type="AuctionModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="BuyerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="R_15">
           <End Type="AuctionModel.Account" Role="Account" Multiplicity="0..1" />
           <End Type="AuctionModel.Bet" Role="Bet" Multiplicity="*" />
@@ -554,18 +519,6 @@
             </Principal>
             <Dependent Role="Bet">
               <PropertyRef Name="BuyerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_2">
-          <End Type="AuctionModel.Account" Role="Account" Multiplicity="0..1" />
-          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Account">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="SellerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -593,18 +546,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="R_14">
-          <End Type="AuctionModel.Item" Role="Item" Multiplicity="0..1" />
-          <End Type="AuctionModel.Bet" Role="Bet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Bet">
-              <PropertyRef Name="ItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="R_16">
           <End Type="AuctionModel.BetType" Role="BetType" Multiplicity="0..1" />
           <End Type="AuctionModel.Bet" Role="Bet" Multiplicity="*" />
@@ -617,18 +558,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="R_17">
-          <End Type="AuctionModel.Bet" Role="Bet" Multiplicity="0..1" />
-          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Bet">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="HighestBetId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="R_18">
           <End Type="AuctionModel.Category" Role="Category" Multiplicity="0..1" />
           <End Type="AuctionModel.CategoryFeature" Role="CategoryFeature" Multiplicity="*" />
@@ -637,18 +566,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="CategoryFeature">
-              <PropertyRef Name="CategoryId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_3">
-          <End Type="AuctionModel.Category" Role="Category" Multiplicity="0..1" />
-          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Item">
               <PropertyRef Name="CategoryId" />
             </Dependent>
           </ReferentialConstraint>
@@ -665,30 +582,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="R_5">
-          <End Type="AuctionModel.Item" Role="Item" Multiplicity="0..1" />
-          <End Type="AuctionModel.Notification" Role="Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Item">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="ItemId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_9">
-          <End Type="AuctionModel.Specification" Role="Specification" Multiplicity="0..1" />
-          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Specification">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Item">
-              <PropertyRef Name="FeatureId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="R_7">
           <End Type="AuctionModel.NotificcationType" Role="NotificcationType" Multiplicity="0..1" />
           <End Type="AuctionModel.Notification" Role="Notification" Multiplicity="*" />
@@ -698,6 +591,115 @@
             </Principal>
             <Dependent Role="Notification">
               <PropertyRef Name="NotificationTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DueDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsAvailable" Type="Boolean" />
+          <Property Name="SellerId" Type="Guid" />
+          <Property Name="CategoryId" Type="Byte" />
+          <Property Name="MinBet" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="IsPayed" Type="Boolean" />
+          <Property Name="IsReceived" Type="Boolean" />
+          <Property Name="BuyerId" Type="Guid" />
+          <Property Name="HighestBetId" Type="Guid" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Account" Relationship="AuctionModel.R_13" FromRole="Item" ToRole="Account" />
+          <NavigationProperty Name="Account1" Relationship="AuctionModel.R_2" FromRole="Item" ToRole="Account" />
+          <NavigationProperty Name="Bets" Relationship="AuctionModel.R_14" FromRole="Item" ToRole="Bet" />
+          <NavigationProperty Name="Bet" Relationship="AuctionModel.R_17" FromRole="Item" ToRole="Bet" />
+          <NavigationProperty Name="Category" Relationship="AuctionModel.R_3" FromRole="Item" ToRole="Category" />
+          <NavigationProperty Name="Specifications" Relationship="AuctionModel.R_23" FromRole="Item" ToRole="Specification" />
+          <NavigationProperty Name="Notifications" Relationship="AuctionModel.R_5" FromRole="Item" ToRole="Notification" />
+        </EntityType>
+        <Association Name="R_13">
+          <End Type="AuctionModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="BuyerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_2">
+          <End Type="AuctionModel.Account" Role="Account" Multiplicity="0..1" />
+          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Account">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="SellerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_14">
+          <End Type="AuctionModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="AuctionModel.Bet" Role="Bet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Bet">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_17">
+          <End Type="AuctionModel.Bet" Role="Bet" Multiplicity="0..1" />
+          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="HighestBetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_3">
+          <End Type="AuctionModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="AuctionModel.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_23">
+          <End Type="AuctionModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="AuctionModel.Specification" Role="Specification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Specification">
+              <PropertyRef Name="ItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_5">
+          <End Type="AuctionModel.Item" Role="Item" Multiplicity="0..1" />
+          <End Type="AuctionModel.Notification" Role="Notification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Notification">
+              <PropertyRef Name="ItemId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -766,25 +768,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Items">
-            <EntityTypeMapping TypeName="AuctionModel.Item">
-              <MappingFragment StoreEntitySet="Item">
-                <ScalarProperty Name="HighestBetId" ColumnName="HighestBetId" />
-                <ScalarProperty Name="BuyerId" ColumnName="BuyerId" />
-                <ScalarProperty Name="IsReceived" ColumnName="IsReceived" />
-                <ScalarProperty Name="IsPayed" ColumnName="IsPayed" />
-                <ScalarProperty Name="MinBet" ColumnName="MinBet" />
-                <ScalarProperty Name="FeatureId" ColumnName="FeatureId" />
-                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
-                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
-                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
-                <ScalarProperty Name="DueDateTime" ColumnName="DueDateTime" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
             <EntityTypeMapping TypeName="AuctionModel.Notification">
               <MappingFragment StoreEntitySet="Notification">
@@ -807,8 +790,28 @@
           <EntitySetMapping Name="Specifications">
             <EntityTypeMapping TypeName="AuctionModel.Specification">
               <MappingFragment StoreEntitySet="Specifications">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="CategoryFeatureId" ColumnName="CategoryFeatureId" />
                 <ScalarProperty Name="SelectedValue" ColumnName="SelectedValue" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="AuctionModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="HighestBetId" ColumnName="HighestBetId" />
+                <ScalarProperty Name="BuyerId" ColumnName="BuyerId" />
+                <ScalarProperty Name="IsReceived" ColumnName="IsReceived" />
+                <ScalarProperty Name="IsPayed" ColumnName="IsPayed" />
+                <ScalarProperty Name="MinBet" ColumnName="MinBet" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="SellerId" ColumnName="SellerId" />
+                <ScalarProperty Name="IsAvailable" ColumnName="IsAvailable" />
+                <ScalarProperty Name="DueDateTime" ColumnName="DueDateTime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

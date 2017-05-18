@@ -7,9 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebSite
 {
     using System;
@@ -17,8 +14,6 @@ namespace WebSite
     
     public partial class Notification
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
         public System.Guid Id { get; set; }
         public string Message { get; set; }
         public Nullable<System.Guid> ItemId { get; set; }
@@ -26,7 +21,7 @@ namespace WebSite
         public Nullable<byte> NotificationTypeId { get; set; }
     
         public virtual Account Account { get; set; }
-        public virtual Item Item { get; set; }
         public virtual NotificcationType NotificcationType { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

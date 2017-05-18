@@ -7,9 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebSite
 {
     using System;
@@ -22,9 +19,7 @@ namespace WebSite
         {
             this.Items = new HashSet<Item>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+    
         public System.Guid Id { get; set; }
         public Nullable<System.Guid> ItemId { get; set; }
         public Nullable<System.Guid> BuyerId { get; set; }
@@ -32,8 +27,8 @@ namespace WebSite
         public Nullable<byte> BetTypeId { get; set; }
     
         public virtual Account Account { get; set; }
-        public virtual Item Item { get; set; }
         public virtual BetType BetType { get; set; }
+        public virtual Item Item { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Items { get; set; }
     }

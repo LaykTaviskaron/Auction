@@ -18,7 +18,8 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select {
+select,
+textarea {
     max-width: 280px;
 }
 
@@ -72,10 +73,42 @@ select {
             box-sizing: border-box;
 }
 
+.no-margin {
+    margin: 0 !important;
+}
+
 .create-item-form .create-btn {
-    float: right;
+    margin-left: 211.97px;
 }
 
 .fix-select-margin {
     margin-left: 5px;
 }
+
+.input-group-addon {
+    width: auto !important;
+}
+
+.datepicker {
+    min-width: 236.8px;
+}
+
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
+    }

@@ -7,9 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebSite
 {
     using System;
@@ -17,20 +14,12 @@ namespace WebSite
     
     public partial class Specification
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Specification()
-        {
-            this.Items = new HashSet<Item>();
-        }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
         public System.Guid Id { get; set; }
         public string SelectedValue { get; set; }
         public Nullable<System.Guid> CategoryFeatureId { get; set; }
+        public Nullable<System.Guid> ItemId { get; set; }
     
         public virtual CategoryFeature CategoryFeature { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Item> Items { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

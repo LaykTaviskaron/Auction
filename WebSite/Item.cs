@@ -7,9 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebSite
 {
     using System;
@@ -21,11 +18,10 @@ namespace WebSite
         public Item()
         {
             this.Bets = new HashSet<Bet>();
+            this.Specifications = new HashSet<Specification>();
             this.Notifications = new HashSet<Notification>();
         }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Key]
+    
         public System.Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -33,12 +29,12 @@ namespace WebSite
         public Nullable<bool> IsAvailable { get; set; }
         public Nullable<System.Guid> SellerId { get; set; }
         public Nullable<byte> CategoryId { get; set; }
-        public Nullable<System.Guid> FeatureId { get; set; }
         public Nullable<decimal> MinBet { get; set; }
         public Nullable<bool> IsPayed { get; set; }
         public Nullable<bool> IsReceived { get; set; }
         public Nullable<System.Guid> BuyerId { get; set; }
         public Nullable<System.Guid> HighestBetId { get; set; }
+        public string Image { get; set; }
     
         public virtual Account Account { get; set; }
         public virtual Account Account1 { get; set; }
@@ -47,7 +43,8 @@ namespace WebSite
         public virtual Bet Bet { get; set; }
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Specification> Specifications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Notification> Notifications { get; set; }
-        public virtual Specification Specification { get; set; }
     }
 }

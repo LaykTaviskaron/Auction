@@ -3,7 +3,7 @@ GO
 
 IF  EXISTS (SELECT name FROM sys.databases WHERE name = 'Auction')
 ALTER DATABASE [Auction] set single_user with rollback immediate
-DROP DATABASE [Auction]GO
+DROP DATABASE [Auction]
 
 USE [master]
 GO
@@ -19,6 +19,7 @@ USE [Auction]
 GO
 PRINT 'Creating database tables...'
 
+GO
 CREATE TABLE [Account]
 ( 
 	[Id]                 uniqueidentifier  NOT NULL ,
@@ -117,7 +118,6 @@ CREATE TABLE [Item]
 	[IsAvailable]        bit  NULL ,
 	[SellerId]           uniqueidentifier  NULL ,
 	[CategoryId]         tinyint  NULL ,
-	[FeatureId]          uniqueidentifier  NULL ,
 	[MinBet]             decimal(12,2)  NULL ,
 	[IsPayed]            bit  NULL ,
 	[IsReceived]         bit  NULL ,
@@ -134,18 +134,6 @@ CREATE NONCLUSTERED INDEX [XIF1Item] ON [Item]
 )
 go
 
-CREATE NONCLUSTERED INDEX [XIF2Item] ON [Item]
-( 
-	[CategoryId]          ASC
-)
-go
-
-CREATE NONCLUSTERED INDEX [XIF3Item] ON [Item]
-( 
-	[FeatureId]           ASC
-)
-go
-
 CREATE NONCLUSTERED INDEX [XIF4Item] ON [Item]
 ( 
 	[BuyerId]             ASC
@@ -155,6 +143,12 @@ go
 CREATE NONCLUSTERED INDEX [XIF5Item] ON [Item]
 ( 
 	[HighestBetId]        ASC
+)
+go
+
+CREATE NONCLUSTERED INDEX [XIF2Item] ON [Item]
+( 
+	[CategoryId]          ASC
 )
 go
 
@@ -200,6 +194,7 @@ CREATE TABLE [Specifications]
 	[Id]                 uniqueidentifier  NOT NULL ,
 	[SelectedValue]      nvarchar(max)  NULL ,
 	[CategoryFeatureId]  uniqueidentifier  NULL ,
+	[ItemId]             uniqueidentifier  NULL ,
 	CONSTRAINT [XPKCharacter] PRIMARY KEY  CLUSTERED ([Id] ASC)
 )
 go
@@ -207,6 +202,12 @@ go
 CREATE NONCLUSTERED INDEX [XIF1Character] ON [Specifications]
 ( 
 	[CategoryFeatureId]   ASC
+)
+go
+
+CREATE NONCLUSTERED INDEX [XIF2Character] ON [Specifications]
+( 
+	[ItemId]              ASC
 )
 go
 
@@ -251,18 +252,6 @@ ALTER TABLE [Item]
 go
 
 ALTER TABLE [Item]
-	ADD CONSTRAINT [R_3] FOREIGN KEY ([CategoryId]) REFERENCES [Category]([Id])
-		ON DELETE NO ACTION
-		ON UPDATE NO ACTION
-go
-
-ALTER TABLE [Item]
-	ADD CONSTRAINT [R_9] FOREIGN KEY ([FeatureId]) REFERENCES [Specifications]([Id])
-		ON DELETE NO ACTION
-		ON UPDATE NO ACTION
-go
-
-ALTER TABLE [Item]
 	ADD CONSTRAINT [R_13] FOREIGN KEY ([BuyerId]) REFERENCES [Account]([Id])
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
@@ -270,6 +259,12 @@ go
 
 ALTER TABLE [Item]
 	ADD CONSTRAINT [R_17] FOREIGN KEY ([HighestBetId]) REFERENCES [Bet]([Id])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Item]
+	ADD CONSTRAINT [R_3] FOREIGN KEY ([CategoryId]) REFERENCES [Category]([Id])
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 go
@@ -296,6 +291,12 @@ go
 
 ALTER TABLE [Specifications]
 	ADD CONSTRAINT [R_19] FOREIGN KEY ([CategoryFeatureId]) REFERENCES [CategoryFeature]([Id])
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION
+go
+
+ALTER TABLE [Specifications]
+	ADD CONSTRAINT [R_23] FOREIGN KEY ([ItemId]) REFERENCES [Item]([Id])
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION
 go

@@ -31,11 +31,9 @@ namespace WebSite
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CategoryFeature> CategoryFeatures { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<NotificcationType> NotificcationTypes { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
-
-        public System.Data.Entity.DbSet<WebSite.Models.FeatureViewModel> FeatureViewModels { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
     }
 }
