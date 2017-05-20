@@ -16,14 +16,20 @@ namespace WebSite.Controllers
     {
         private Dictionary<Guid, string> selectedFeatures = new Dictionary<Guid, string>();
         private static string currentImage;
+        private readonly string imagePattern = "data:image/gif;base64,{0}";
 
         // GET: Items
         public ActionResult Index()
         {
-            ViewData = new ViewDataDictionary()
+            ViewBag.Suggested = this.DbContext.Items.ToList();
+            ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
+            this.DbContext.Categories.ForEach(x =>
             {
-                {"Suggested", this.DbContext.Items.ToList()}
-            };
+                ViewBag.ByCategories.Add(
+                    x.Name,
+                    this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
+            });
+
             var items = this.DbContext.Items;
             return View(items);
         }
@@ -91,6 +97,7 @@ namespace WebSite.Controllers
             item.IsReceived = false;
             item.BuyerId = null;
             item.HighestBetId = null;
+            item.Image = this.GetImage();
 
             //Get user ID from context
             //item.SellerId = 
@@ -113,6 +120,7 @@ namespace WebSite.Controllers
                 });
 
                 this.DbContext.SaveChanges();
+                currentImage = string.Empty;
                 return RedirectToAction("Index");
             }
 
@@ -150,7 +158,7 @@ namespace WebSite.Controllers
                     byte[] array = ms.GetBuffer();
 
                     string base64String = Convert.ToBase64String(array);
-                    currentImage = $"data:image/gif;base64,{base64String}";
+                    currentImage = string.Format(this.imagePattern, base64String);
                 }
 
                 return new HttpResponseMessage(HttpStatusCode.OK);
@@ -178,7 +186,7 @@ namespace WebSite.Controllers
                     byte[] imageBytes = m.ToArray();
 
                     string base64String = Convert.ToBase64String(imageBytes);
-                    return $"data:image/gif;base64,{base64String}";
+                    return string.Format(this.imagePattern, base64String);
                 }
             }
         }
