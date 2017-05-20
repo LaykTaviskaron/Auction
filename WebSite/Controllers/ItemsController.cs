@@ -14,7 +14,7 @@ namespace WebSite.Controllers
 {
     public class ItemsController : BaseController
     {
-        private Dictionary<Guid, string> selectedFeatures = new Dictionary<Guid, string>();
+        private static Dictionary<Guid, string> selectedFeatures = new Dictionary<Guid, string>();
         private static string currentImage;
         private readonly string imagePattern = "data:image/gif;base64,{0}";
 
@@ -80,7 +80,7 @@ namespace WebSite.Controllers
         [HttpPost]
         public HttpResponseMessage SetFeature(Guid featureId, string slectedValue)
         {
-            this.selectedFeatures.Add(featureId, slectedValue);
+            selectedFeatures.Add(featureId, slectedValue);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
@@ -108,11 +108,11 @@ namespace WebSite.Controllers
                 item.Id = itemId;
                 this.DbContext.Items.Add(item);
 
-                this.selectedFeatures.ForEach(x =>
+                selectedFeatures.ForEach(x =>
                 {
                     this.DbContext.Specifications.Add(new Specification
                     {
-                        Id = new Guid(),
+                        Id = Guid.NewGuid(),
                         SelectedValue = x.Value,
                         CategoryFeatureId = x.Key,
                         ItemId = itemId
@@ -121,6 +121,7 @@ namespace WebSite.Controllers
 
                 this.DbContext.SaveChanges();
                 currentImage = string.Empty;
+                selectedFeatures.Clear();
                 return RedirectToAction("Index");
             }
 

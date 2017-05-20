@@ -110,55 +110,10 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+@*<script type="text/javascript" src="~/Scripts/features.js"></script>*@
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(function () {
-            $('#datetimepicker').datetimepicker();
-        });
-    });
+<script type="text/javascript" src="~/Scripts/createItem.js"></script>
 
-    function getFeatures() {
-        var id = $("#categoryId").val();
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("GetFeatures", "Items")',
-            data: { categoryId: id },
-            success: function (viewHTML) {
-                $(".target").html(viewHTML);
-            },
-            error: function (errorData) { console.log(errorData); }
-        });
-    }
-
-    function getImage() {
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("GetImage", "Items")',
-            success: function (data) {
-                $("#item-image").attr("src", data);
-            },
-            error: function (errorData) { console.log(errorData); }
-        });
-    }
-
-    function uploadImage() {
-        var input = document.getElementById('file-btn'),
-            data = new FormData();
-        data.append("ItemImage", input.files[0]);
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("ImageUpload", "Items")',
-            data: data,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            allways: getImage
-        }).always(getImage);
-    }
-
-    getImage();
-</script>
 
 @helper GetFeatures(byte? selectedCategory, List<FeatureViewModel> features)
 {

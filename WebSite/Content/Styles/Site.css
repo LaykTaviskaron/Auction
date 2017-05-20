@@ -93,8 +93,9 @@ textarea {
 }
 
 .horizontal-scroll-wrapper img {
-    width: 200px;
+    max-width: 200px;
     height: auto;
+    max-height: 150px;
 }
 
 .create-item-form img {
