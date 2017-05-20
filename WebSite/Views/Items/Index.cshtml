@@ -18,17 +18,18 @@
         <div class="row">
             <h1>Suggested</h1>
         </div>
-        <div class="item-container">
-            @foreach (var item in (List<Item>)ViewData["Suggested"])
-            {
-                <div class="item-width">
-                    <img src="" alt="image" />
-                    <br />
-                    <div class="col-sm-12">
-                        <span class="image-caption">@item.Name</span>
-                    </div>
-                </div>
-            }
+        <div class="horizontal-scroll-wrapper">
+            <ul>
+                @foreach (var item in (List<Item>)ViewData["Suggested"])
+                {
+                    <li>
+                        <img src="" alt="image" />
+                        <div class="">
+                            <span class="image-caption">@item.Name</span>
+                        </div>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 </div>

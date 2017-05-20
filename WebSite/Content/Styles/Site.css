@@ -75,10 +75,21 @@ textarea {
     text-align: center;
 }
 
-.horizontal-scroll {
-    width: 30em;
-    overflow-x: auto;
+.horizontal-scroll-wrapper {
+    width: 700px;
+    height: 200px;
+    overflow: auto;
+}
+
+.horizontal-scroll-wrapper > ul {
     white-space: nowrap;
+    list-style: none;
+}
+
+.horizontal-scroll-wrapper > ul > li {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
 }
 
 .create-item-form img {
