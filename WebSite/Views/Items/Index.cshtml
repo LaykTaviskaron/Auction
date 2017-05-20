@@ -14,15 +14,22 @@
     FILTERS
 </div>
 <div class="col-sm-7">
-    <div class="row container">
-        <h1>Suggested</h1>
-        @foreach (var item in (List<Item>)ViewData["Suggested"])
-        {
-            <div class="row">
-                <img src="" alt="image"/>
-                <p>@item.Name</p>
-            </div>
-        }
+    <div class="row">
+        <div class="row">
+            <h1>Suggested</h1>
+        </div>
+        <div class="item-container">
+            @foreach (var item in (List<Item>)ViewData["Suggested"])
+            {
+                <div class="item-width">
+                    <img src="" alt="image" />
+                    <br />
+                    <div class="col-sm-12">
+                        <span class="image-caption">@item.Name</span>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 <table class="table">

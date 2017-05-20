@@ -16,7 +16,7 @@ namespace WebSite
     public partial class AuctionEntities : DbContext
     {
         public AuctionEntities()
-            : base("name=AuctionEntities")
+            : base("name=Auction")
         {
         }
     

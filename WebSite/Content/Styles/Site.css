@@ -37,6 +37,27 @@ textarea {
     height: 120px;
 }
 
+.item-container {
+    max-width: 800px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: 200px;
+}
+
+.image-caption {
+    /*display: block;*/
+    width: 100%;
+}
+
+.item-width {
+    width: 300px;
+    display: inline;
+}
+.item-width img {
+    width: inherit;
+}
+
 .feature-container {
     display: inline-block;
     text-align: center;
