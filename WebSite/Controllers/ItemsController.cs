@@ -19,20 +19,20 @@ namespace WebSite.Controllers
         private static string currentImage;
         private readonly string imagePattern = "data:image/gif;base64,{0}";
 
-        // GET: Items
+        //GET: Items
         public ActionResult Index()
         {
             var currentUserId = User.Identity.GetUserId();
             var currentUser = this.DbContext.Accounts.First();
             var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
             ViewBag.Hottest = this.DbContext.Items.OrderBy(y => y.DueDateTime).ToList().Take(10);
-            //ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
-            //this.DbContext.Categories.ForEach(x =>
-            //{
-            //    ViewBag.ByCategories.Add(
-            //        x.Name,
-            //        this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
-            //});
+            ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
+            this.DbContext.Categories.ForEach(x =>
+            {
+                ViewBag.ByCategories.Add(
+                    x.Name,
+                    this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
+            });
             ViewBag.Categories = this.DbContext.Categories.ToList();
             ViewBag.Items = this.DbContext.Items.Select(x => new ItemsViewModel
             {
@@ -41,9 +41,9 @@ namespace WebSite.Controllers
                 Description = x.Description,
                 DueTo = x.DueDateTime.Value,
                 Image = x.Image,
-                //SellerId = x.SellerId.Value,
+                SellerId = x.SellerId.Value,
                 SellerName = fullName,
-                //SeleerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
+                SellerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
                 UsersBet = this.DbContext.Bets.ToList().FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id).Amout,
                 HighestBet = this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
             }).ToList();
@@ -77,27 +77,27 @@ namespace WebSite.Controllers
                 items = items.Where(x => ids.Contains(x.Id)).ToList();
             }
             ViewBag.Items = items.Select(x => new ItemsViewModel
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Description = x.Description,
-                        DueTo = x.DueDateTime.Value,
-                        Image = x.Image,
-                        //SellerId = x.SellerId.Value,
-                        SellerName = fullName,
-                        //SeleerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
-                        //UsersBet =
-                        //    this.DbContext.Bets.ToList()
-                        //        .FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id)
-                        //        .Amout,
-                        //HighestBet =
-                        //    this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
-                    }).ToList();
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                DueTo = x.DueDateTime.Value,
+                Image = x.Image,
+                SellerId = x.SellerId.Value,
+                SellerName = fullName,
+                SellerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
+                UsersBet =
+                            this.DbContext.Bets.ToList()
+                                .FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id)
+                                .Amout,
+                HighestBet =
+                            this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
+            }).ToList();
 
             return PartialView("ItemsView");
         }
 
-        // GET: Items/Details/5
+        //GET: Items/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null)
@@ -112,7 +112,7 @@ namespace WebSite.Controllers
             return View(item);
         }
 
-        // GET: Items/Create
+        //GET: Items/Create
         public ActionResult Create()
         {
             ViewBag.BuyerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName");
@@ -132,7 +132,7 @@ namespace WebSite.Controllers
                 .Select(x => new FeatureViewModel
                 {
                     Id = x.Id,
-                    CategoryId = (byte) x.CategoryId,
+                    CategoryId = (byte)x.CategoryId,
                     Name = x.Name,
                     PosibleValues = x.PosibleValues.Split(',').ToList()
                 }).ToList();
@@ -153,7 +153,7 @@ namespace WebSite.Controllers
                         .Select(x => new FeatureViewModel
                         {
                             Id = x.Id,
-                            CategoryId = (byte) x.CategoryId,
+                            CategoryId = (byte)x.CategoryId,
                             Name = x.Name,
                             PosibleValues = x.PosibleValues.Split(',').ToList()
                         }).ToList());
@@ -170,8 +170,8 @@ namespace WebSite.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        // POST: Items/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        //POST: Items/Create
+        //To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -183,7 +183,7 @@ namespace WebSite.Controllers
             item.BuyerId = null;
             item.HighestBetId = null;
             item.Image = this.GetImage();
-            //item.SellerId = new Guid(User.Identity.GetUserId());
+            item.SellerId = new Guid(User.Identity.GetUserId());
 
             if (ModelState.IsValid)
             {
@@ -211,7 +211,7 @@ namespace WebSite.Controllers
             return this.Create();
         }
 
-        // GET: Items/Edit/5
+        //GET: Items/Edit/5
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
@@ -249,7 +249,7 @@ namespace WebSite.Controllers
             }
             catch (Exception)
             {
-                
+
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
@@ -274,7 +274,7 @@ namespace WebSite.Controllers
                 }
             }
         }
-        // POST: Items/Edit/5
+        //POST: Items/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -294,7 +294,7 @@ namespace WebSite.Controllers
             return View(item);
         }
 
-        // GET: Items/Delete/5
+        //GET: Items/Delete/5
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -309,7 +309,7 @@ namespace WebSite.Controllers
             return View(item);
         }
 
-        // POST: Items/Delete/5
+        //POST: Items/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
