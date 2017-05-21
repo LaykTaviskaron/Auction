@@ -131,25 +131,25 @@ textarea {
     min-width: 236.8px;
 }
 
-    .btn-file {
-        position: relative;
-        overflow: hidden;
-    }
-    .btn-file input[type=file] {
-        position: absolute;
-        top: 0;
-        right: 0;
-        min-width: 100%;
-        min-height: 100%;
-        font-size: 100px;
-        text-align: right;
-        filter: alpha(opacity=0);
-        opacity: 0;
-        outline: none;
-        background: white;
-        cursor: inherit;
-        display: block;
-    }
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
 
 .filters {
     border: darkgrey solid 2px;
@@ -187,6 +187,14 @@ textarea {
     margin-top: 3%;
 }
 
-.error {
+input.error {
     border: 1.5px red solid;
+}
+
+span.error {
+    color: red;
+}
+
+.bootstrap-datetimepicker-widget {
+    text-align: center;
 }
