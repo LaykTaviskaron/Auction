@@ -170,6 +170,27 @@ namespace WebSite.Controllers
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
+        [HttpPost]
+        public ActionResult MakeABet(decimal amount, Guid itemId)
+        {
+            var id = Guid.NewGuid();
+
+            this.DbContext.Bets.Add(new Bet
+            {
+                Id = id,
+                Amout = amount,
+                ItemId = itemId,
+                //add userId
+            });
+
+            var item = this.DbContext.Items.Find(itemId);
+            item.HighestBetId = id;
+
+            this.DbContext.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         // POST: Items/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.

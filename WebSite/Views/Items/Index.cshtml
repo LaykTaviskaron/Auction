@@ -51,10 +51,12 @@
                 @foreach (var item in ViewBag.Hottest)
                 {
                     <li>
-                        <img src="@item.Image" alt="image" />
-                        <div class="">
-                            <span class="image-caption">@item.Name</span>
-                        </div>
+                        <a href="/Items/Details/@item.Id">
+                            <img src="@item.Image" alt="image" />
+                            <div class="">
+                                <span class="image-caption">@item.Name</span>
+                            </div>
+                        </a>
                     </li>
                 }
             </ul>
@@ -88,85 +90,3 @@
     }*@
 
 </div>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DueDateTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsAvailable)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MinBet)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsPayed)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsReceived)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Account.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Account1.FirstName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Bet.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DueDateTime)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsAvailable)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MinBet)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPayed)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsReceived)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Account.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Account1.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bet.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>

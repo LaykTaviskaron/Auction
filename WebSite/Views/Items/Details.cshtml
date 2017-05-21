@@ -1,114 +1,104 @@
 ﻿@model WebSite.Item
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Lot deatils";
 }
 
 <h2>Details</h2>
 
-<div>
-    <h4>Item</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+<div class="create-item-form">
+    <div class="col-sm-2">
+            <a class="btn btn-default" href="/Items"><span class="glyphicon glyphicon-chevron-left"></span>Back</a>
+    </div>
+    <div class="col-sm-10">
+        <div class="row form-group">
+            <div class="col-sm-5 text-center">
+                <img id="item-image" src="@Model.Image" alt="image"/>
+            </div>
+            <div class="col-sm-7 description-container">
+                <div class="row form-group">
+                    <div class="col-sm-4 no-padding">
+                        Name
+                    </div>
+                    <div class="col-md-8">
+                        <p class="form-control-static no-padding" type="text">@Model.Name</p>
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <div class="row form-group">
+                    <div class="col-sm-4 no-padding">
+                        Category
+                    </div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static no-padding" type="text">@Model.Category.Name</p>
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                @foreach (var feature in Model.Specifications)
+                {
+                    <div class="row form-group">
+                        <div class="col-sm-4 no-padding">
+                            @feature.CategoryFeature.Name
+                        </div>
+                        <div class="col-sm-8">
+                            <p class="form-control-static no-padding" type="text">@feature.SelectedValue</p>
+                        </div>
+                    </div>
+                }
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <div class="form-group row">
+                    <div class="col-sm-4 no-padding">
+                        Current highest bet
+                        <span class="glyphicon glyphicon-fire"></span>
+                    </div>
+                    <div class="col-md-8">
+                        <p class="form-control-static no-padding" type="text">@(Model.Bet != null ? Model.Bet.Amout.ToString() : "No bets for this item")</p>
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DueDateTime)
-        </dt>
+                <div class="row form-group">
+                    <div class="col-sm-4 no-padding">
+                        Aviable to
+                    </div>
+                    <div class="col-md-8">
+                        <p class="form-control-static no-padding" type="text">@Model.DueDateTime</p>
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.DueDateTime)
-        </dd>
+                <div class="row form-group">
+                    <div class="col-sm-4 no-padding">
+                        General description
+                    </div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static no-padding" type="text">@Model.Description</p>
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsAvailable)
-        </dt>
+                <div class="make-bet-form">
+                    <div class="col-sm-4 no-padding">
+                        Your bet
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" required id="user-bet"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsAvailable)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MinBet)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MinBet)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsPayed)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsPayed)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsReceived)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsReceived)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Account.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Account.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Account1.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Account1.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Bet.Id)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Bet.Id)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Specification.SelectedValue)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Specification.SelectedValue)
-        </dd>
-
-    </dl>
+    <div class="form-group row">
+        <div class="col-sm-offset-4 col-md-8">
+            <div class="col-sm-offset-4 col-sm-8">
+                <input type="button" value="Make a bet" class="btn btn-primary create-btn" onclick="makeABet('@Model.MinBet', @(Model.Bet == null ? "null" : Model.Bet.Amout.ToString()), '@Model.Id')"/>
+            </div>
+        </div>
+    </div>
 </div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<script type="text/javascript" src="~/Scripts/bet.js"></script>
+

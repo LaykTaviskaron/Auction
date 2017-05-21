@@ -2,17 +2,19 @@
 {
     <div class="row items-all">
         <div class="row">
-            <div class="col-sm-4">
-                <img src="@item.Image" alt="image" />
-            </div>
-            <div class="col-sm-8 description-block">
-                <div class="row">
-                    <h2>@item.Name</h2>
+            <a href="/Items/Details/@item.Id">
+                <div class="col-sm-4">
+                    <img src="@item.Image" alt="image" />
                 </div>
-                <div class="row">
-                    @item.Description
+                <div class="col-sm-8 description-block">
+                    <div class="row">
+                        <h2>@item.Name</h2>
+                    </div>
+                    <div class="row">
+                        @item.Description
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         <div class="row">
             <div class="col-sm-2">
@@ -36,5 +38,5 @@
             </div>
         </div>
     </div>
-    <hr/>
+<hr/>
 }
