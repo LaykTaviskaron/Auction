@@ -246,6 +246,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BetViewModel.cs" />
     <Compile Include="Models\FeatureViewModel.cs" />
+    <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\HighestBetModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ItemsViewModel.cs" />
@@ -331,7 +332,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\features.js" />
+    <Content Include="Scripts\items.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -392,6 +393,8 @@
     <Content Include="Views\Items\Index.cshtml" />
     <Content Include="Views\Bet\Index.cshtml" />
     <Content Include="Views\Items\Feature.cshtml" />
+    <Content Include="Views\Items\FeatureFilter.cshtml" />
+    <Content Include="Views\Items\ItemsView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

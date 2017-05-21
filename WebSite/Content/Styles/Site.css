@@ -95,7 +95,7 @@ textarea {
 .horizontal-scroll-wrapper img {
     max-width: 200px;
     height: auto;
-    max-height: 150px;
+    max-height: 140px;
 }
 
 .create-item-form img {
@@ -150,3 +150,35 @@ textarea {
         cursor: inherit;
         display: block;
     }
+
+.filters {
+    border: darkgrey solid 2px;
+    border-radius: 15px;
+    padding-right: 1%;
+    height: auto;
+    margin-right: 15px;
+}
+
+.filters h1 {
+    margin-left: 2%;
+}
+
+.filters .checkbox{
+    font-size: 16px;
+}
+
+.items-all img{
+    max-height: 200px;
+    width: auto;
+}
+
+.items-all .description-block {
+    max-height: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.filter-button {
+    text-align: center;
+    margin-bottom: 2%;
+}

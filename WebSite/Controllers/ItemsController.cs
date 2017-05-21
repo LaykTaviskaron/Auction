@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using WebGrease.Css.Extensions;
 using WebSite.Models;
 
@@ -21,17 +22,79 @@ namespace WebSite.Controllers
         // GET: Items
         public ActionResult Index()
         {
-            ViewBag.Suggested = this.DbContext.Items.ToList();
-            ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
-            this.DbContext.Categories.ForEach(x =>
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = this.DbContext.Accounts.First();
+            var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
+            ViewBag.Hottest = this.DbContext.Items.OrderBy(y => y.DueDateTime).ToList().Take(10);
+            //ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
+            //this.DbContext.Categories.ForEach(x =>
+            //{
+            //    ViewBag.ByCategories.Add(
+            //        x.Name,
+            //        this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
+            //});
+            ViewBag.Categories = this.DbContext.Categories.ToList();
+            ViewBag.Items = this.DbContext.Items.Select(x => new ItemsViewModel
             {
-                ViewBag.ByCategories.Add(
-                    x.Name,
-                    this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
-            });
-
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                DueTo = x.DueDateTime.Value,
+                Image = x.Image,
+                //SellerId = x.SellerId.Value,
+                SellerName = fullName,
+                //SeleerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
+                UsersBet = this.DbContext.Bets.ToList().FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id).Amout,
+                HighestBet = this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
+            }).ToList();
             var items = this.DbContext.Items;
             return View(items);
+        }
+
+        [HttpPost]
+        public ActionResult Filter(FilterModel filterModel)
+        {
+            if (filterModel == null || !filterModel.Categories.Any())
+            {
+                return null;
+            }
+
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = this.DbContext.Accounts.First();
+            var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
+            var ids = new List<Guid>();
+
+            var items = this.DbContext.Items.Where(x => filterModel.Categories.Contains(x.CategoryId.Value)).ToList();
+            if (filterModel.Features != null && filterModel.Features.Any())
+            {
+                var feature =
+                    this.DbContext.Specifications.FirstOrDefault(x => filterModel.Features.Contains(x.SelectedValue));
+                if (feature != null)
+                {
+                    ids.Add(feature.Id);
+                }
+
+                items = items.Where(x => ids.Contains(x.Id)).ToList();
+            }
+            ViewBag.Items = items.Select(x => new ItemsViewModel
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Description = x.Description,
+                        DueTo = x.DueDateTime.Value,
+                        Image = x.Image,
+                        //SellerId = x.SellerId.Value,
+                        SellerName = fullName,
+                        //SeleerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
+                        //UsersBet =
+                        //    this.DbContext.Bets.ToList()
+                        //        .FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id)
+                        //        .Amout,
+                        //HighestBet =
+                        //    this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
+                    }).ToList();
+
+            return PartialView("ItemsView");
         }
 
         // GET: Items/Details/5
@@ -78,6 +141,28 @@ namespace WebSite.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetFeatures(List<byte> categoryIds)
+        {
+            ViewBag.Features = new Dictionary<string, IEnumerable<FeatureViewModel>>();
+            foreach (var categoryId in categoryIds)
+            {
+                ViewBag.Features.Add(
+                    this.DbContext.Categories.ToList().First(x => x.Id == categoryId).Name,
+                    this.DbContext.CategoryFeatures.ToList()
+                        .Where(x => x.CategoryId == categoryId)
+                        .Select(x => new FeatureViewModel
+                        {
+                            Id = x.Id,
+                            CategoryId = (byte) x.CategoryId,
+                            Name = x.Name,
+                            PosibleValues = x.PosibleValues.Split(',').ToList()
+                        }).ToList());
+            }
+
+            return PartialView("FeatureFilter");
+        }
+
+        [HttpPost]
         public HttpResponseMessage SetFeature(Guid featureId, string slectedValue)
         {
             selectedFeatures.Add(featureId, slectedValue);
@@ -98,9 +183,7 @@ namespace WebSite.Controllers
             item.BuyerId = null;
             item.HighestBetId = null;
             item.Image = this.GetImage();
-
-            //Get user ID from context
-            //item.SellerId = 
+            //item.SellerId = new Guid(User.Identity.GetUserId());
 
             if (ModelState.IsValid)
             {

@@ -4,23 +4,51 @@
     ViewBag.Title = "Aviable auctions";
 }
 
+<script type="text/javascript" src="~/Scripts/items.js"></script>
+
 <h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 
-<div class="col-sm-5">
-    FILTERS
+<div class="col-sm-4">
+    <div class="row filters">
+        <div class="text-center caption">
+            <h1>Filters</h1>
+        </div>
+        <div class="col-sm-12 categories">
+            <h2>Categories</h2>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" class="row" value="@category.Id" onchange="getFeatures()"/>
+                        @category.Name
+                    </label>
+                    <br/>
+                </div>
+            }
+        </div>
+        
+        <div class="col-sm-12">
+            <div class="target"></div>
+        </div>
+        
+        <div class="filter-button">
+            <input class="btn btn-primary btn-md" type="button" onclick="filter()" value="Filter"/>
+        </div>
+    </div>
 </div>
-<div class="col-sm-7">
+
+<div class="col-sm-offset-1 col-sm-7">
     <div class="row">
-        <div class="row">
-            <h1>Suggested</h1>
+        <div class="caption">
+            <h1>Hottest</h1>
         </div>
         <div class="horizontal-scroll-wrapper">
             <ul>
-                @foreach (var item in ViewBag.Suggested)
+                @foreach (var item in ViewBag.Hottest)
                 {
                     <li>
                         <img src="@item.Image" alt="image" />
@@ -33,11 +61,14 @@
         </div>
     </div>
     
-    @foreach (var category in ViewBag.ByCategories)
+    <div class="item-target">
+        @Html.Partial("ItemsView")
+    </div>
+    @*@foreach (var category in ViewBag.ByCategories)
     {
         <br />
         <div class="row">
-            <div class="row">
+            <div class="caption">
                 <h1>The hottest in @category.Key</h1>
             </div>
             <div class="horizontal-scroll-wrapper">
@@ -54,7 +85,7 @@
                 </ul>
             </div>
         </div>
-    }
+    }*@
 
 </div>
 <table class="table">

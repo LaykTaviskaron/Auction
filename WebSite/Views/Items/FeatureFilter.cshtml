@@ -1,0 +1,20 @@
+﻿@foreach (var category in ViewBag.Features)
+{
+    <h2>@category.Key</h2>
+    foreach (var feature in category.Value)
+    {
+        <h3>@feature.Name</h3>
+        <div class="features">
+            @foreach (var value in feature.PosibleValues)
+            {
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" class="row" />
+                        @value
+                    </label>
+                    <br />
+                </div>
+            }
+        </div>
+    }
+}
