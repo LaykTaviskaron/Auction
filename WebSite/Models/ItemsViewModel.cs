@@ -22,6 +22,6 @@ namespace WebSite.Models
 
         public string SellerName { get; set; }
 
-        public int SellerRating { get; set; }
+        public int? SellerRating { get; set; }
     }
 }

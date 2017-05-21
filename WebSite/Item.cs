@@ -27,7 +27,7 @@ namespace WebSite
         public System.Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
+        [DisplayFormat(ApplyFormatInEditMode = true)]
         [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> DueDateTime { get; set; }
         public Nullable<bool> IsAvailable { get; set; }
