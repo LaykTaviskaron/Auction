@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace WebSite
 {
     using System;
@@ -25,6 +27,8 @@ namespace WebSite
         public System.Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
+        [DataType(DataType.DateTime)]
         public Nullable<System.DateTime> DueDateTime { get; set; }
         public Nullable<bool> IsAvailable { get; set; }
         public Nullable<System.Guid> SellerId { get; set; }
