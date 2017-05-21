@@ -12,7 +12,8 @@ namespace WebSite
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+    using WebSite.Models;
+
     public partial class AuctionEntities : DbContext
     {
         public AuctionEntities()
@@ -22,7 +23,7 @@ namespace WebSite
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
+            Database.SetInitializer<ApplicationDbContext>(new CreateDatabaseIfNotExists<ApplicationDbContext>());
         }
     
         public virtual DbSet<Account> Accounts { get; set; }

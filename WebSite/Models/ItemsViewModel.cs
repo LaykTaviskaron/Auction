@@ -12,7 +12,7 @@ namespace WebSite.Models
 
         public string Image { get; set; }
 
-        public DateTime DueTo { get; set; }
+        public DateTime? DueTo { get; set; }
 
         public decimal? UsersBet { get; set; }
 
