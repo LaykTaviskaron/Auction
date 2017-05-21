@@ -156,13 +156,14 @@ namespace WebSite.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    this.DbContext.Accounts.Add(new Account
+                    var sameUser = new Account
                     {
-                        Id = new Guid(User.Identity.GetUserId()),
+                        Id = new Guid(user.Id),
                         Email = model.Email,
                         FirstName = model.FirstName,
                         LastName = model.LastName
-                    });
+                    };
+                    this.DbContext.Accounts.Add(sameUser);
                     this.DbContext.SaveChanges();
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
