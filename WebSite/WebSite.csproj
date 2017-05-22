@@ -260,6 +260,7 @@
       <DependentUpon>AuctionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\JobService.cs" />
     <Compile Include="Specification.cs">
       <DependentUpon>AuctionModel.tt</DependentUpon>
     </Compile>

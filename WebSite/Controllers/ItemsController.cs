@@ -10,11 +10,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using WebGrease.Css.Extensions;
 using WebSite.Models;
+using WebSite.Services;
 
 namespace WebSite.Controllers
 {
     public class ItemsController : BaseController
     {
+        private JobService jobService = new JobService();
         private static Dictionary<Guid, string> selectedFeatures = new Dictionary<Guid, string>();
         private static string currentImage;
         private readonly string imagePattern = "data:image/gif;base64,{0}";
@@ -47,6 +49,7 @@ namespace WebSite.Controllers
                 UsersBet = this.DbContext.Bets.ToList().FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id).Amout,
                 HighestBet = this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
             }).ToList();
+
             var items = this.DbContext.Items;
             return View(items);
         }
@@ -211,6 +214,7 @@ namespace WebSite.Controllers
                 var itemId = Guid.NewGuid();
                 item.Id = itemId;
                 this.DbContext.Items.Add(item);
+                jobService.ScheduleAuctionEnd(item.DueDateTime.Value, item.Id);
 
                 selectedFeatures.ForEach(x =>
                 {
