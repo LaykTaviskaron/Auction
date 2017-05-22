@@ -1,0 +1,13 @@
+﻿@foreach (var item in ViewBag.Notifications)
+{
+    <div class="row items-all">
+        <div class="row">
+            <br />
+                <div class="col-sm-8 description-block">
+                    <div class="row">
+                        @item.Message
+                    </div>
+                </div>
+        </div>
+    </div>
+}
