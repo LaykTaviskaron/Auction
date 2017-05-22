@@ -3,11 +3,16 @@
     <div class="row items-all">
         <div class="row">
             <br />
-                <div class="col-sm-8 description-block">
-                    <div class="row">
-                        @item.Message
-                    </div>
+            <div class="col-sm-8 description-block">
+                <div class="row">
+                    @item.Message
                 </div>
+            </div>
+            <div class="col-sm-4 description-block">
+                <div class="row">
+                    @Html.ActionLink("Delete", "Delete", "Notification", routeValues: new { id = item.Id }, htmlAttributes: new { id = "loginLink" })
+                </div>
+            </div>
         </div>
     </div>
 }

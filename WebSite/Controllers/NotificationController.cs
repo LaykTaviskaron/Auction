@@ -56,18 +56,6 @@ namespace WebSite.Controllers
             return View(notification);
         }
 
-        //GET: Notifications/Create
-        public ActionResult Create()
-        {
-            ViewBag.BuyerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName");
-            ViewBag.SellerId = new SelectList(this.DbContext.Accounts, "Id", "FirstName");
-            ViewBag.HighestBetId = new SelectList(this.DbContext.Bets, "Id", "Id");
-            ViewBag.CategoryId = new SelectList(this.DbContext.Categories, "Id", "Name");
-            ViewBag.FeatureId = new SelectList(this.DbContext.Specifications, "Id", "");
-
-            return View();
-        }
-
         //GET: Notifications/Delete/5
         public ActionResult Delete(Guid? id)
         {
