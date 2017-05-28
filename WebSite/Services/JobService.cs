@@ -8,7 +8,7 @@ using WebSite.Models;
 
 namespace WebSite.Services
 {
-    public class JobService
+    public class JobService : IJobService
     {
 
         public void ScheduleAuctionEnd(DateTime dueDate, Guid itemId)
