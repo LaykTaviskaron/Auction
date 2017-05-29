@@ -24,6 +24,10 @@ function filter() {
         features.push(value.replace(/[^a-z0-9]/gi, ''));
     });
 
+    $(".target").removeClass("hidden");
+
+    $(".hottest").addClass("hidden");
+
     $.ajax({
         type: "POST",
         url: '/Items/Filter',
@@ -33,6 +37,25 @@ function filter() {
     }).always(function (viewHTML) {
         $(".item-target").html(viewHTML.responseText);
     });
+}
+
+function clearFilter() {
+    $.each($(".categories input[type='checkbox']:checked"), function () {
+        $(this).prop("checked", false);
+    });
+
+    $(".target").addClass("hidden");
+
+    $.ajax({
+        type: "POST",
+        url: '/Items/Filter',
+        data: JSON.stringify({ Categories: [], Features: [] }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    }).always(function (viewHTML) {
+        $(".item-target").html(viewHTML.responseText);
+    });
+
 }
 
 function timer(element) {

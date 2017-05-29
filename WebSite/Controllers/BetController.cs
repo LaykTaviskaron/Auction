@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,7 +14,8 @@ namespace WebSite.Controllers
         // GET: Bet
         public ActionResult Index()
         {
-            var userId = (Guid)Membership.GetUser().ProviderUserKey;
+            var userId = new Guid(User.Identity.GetUserId());
+
             var bets = this.DbContext.Bets.Where(x => x.BuyerId == userId).ToList();
             var itemIds = bets.Select(x => x.ItemId).ToList();
             var highestBets =

@@ -27,16 +27,21 @@
                 Time to end: <span class="timer" time="@item.DueTo"></span>
             </div>
             <div class="col-sm-4">
-                Seller: @item.SellerName
-                <br />
-                @if (item.SellerRating != null)
+                Seller: 
+
+                <a href="/Feedbacks/Create/@item.SellerId">
+                    @item.SellerName
+                </a>
+                    <br />
+                    @if (item.SellerRating != null)
                 {
                     for (int i = 0; i < item.SellerRating; i++)
                     {
-                        <span class="glyphicon glyphicon-star"></span>
+                            <span class="glyphicon glyphicon-star"></span>
+                        }
                     }
-                }
             </div>
+
         </div>
     </div>
 <hr/>
