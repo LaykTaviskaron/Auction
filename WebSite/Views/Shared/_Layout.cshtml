@@ -29,7 +29,7 @@
                     <li>@Html.ActionLink("Notification", "Index", "Notification", null, null)</li>
                     <li><a>My bets</a></li>
                     <li><a>Account</a></li>
-                    <li><a>New lot</a></li>
+                    <li>@Html.ActionLink("New lot", "Create", "Items", null, null)</li>
                     <li><a>Settings</a></li>
                     <li>
                         @Html.ActionLink("Hello, " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
