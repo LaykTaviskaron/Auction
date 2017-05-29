@@ -35,6 +35,7 @@ namespace WebSite.Controllers
                     x.Name,
                     this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
             });
+            var userBet = this.DbContext.Bets.ToList().Where(y => y.BuyerId == new Guid(currentUserId));
             ViewBag.Categories = this.DbContext.Categories.ToList();
             ViewBag.Items = this.DbContext.Items.Select(x => new ItemsViewModel
             {
@@ -46,8 +47,8 @@ namespace WebSite.Controllers
                 SellerId = x.SellerId.Value,
                 SellerName = fullName,
                 SellerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
-                UsersBet = this.DbContext.Bets.ToList().FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id).Amout,
-                HighestBet = this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
+                UsersBet = userBet.Where(y => y.ItemId == x.Id).FirstOrDefault() != null ? userBet.Where(y => y.ItemId == x.Id).FirstOrDefault().Amout : null,
+                HighestBet = this.DbContext.Bets.ToList().Where(y => y.ItemId == x.Id).OrderBy(y => y.Amout).FirstOrDefault() != null ? this.DbContext.Bets.ToList().Where(y => y.ItemId == x.Id).OrderBy(y => y.Amout).FirstOrDefault().Amout : null
             }).ToList();
 
             var items = this.DbContext.Items;
