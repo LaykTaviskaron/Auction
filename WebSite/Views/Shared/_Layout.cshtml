@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -17,19 +18,35 @@
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-collapse collapse">
+        @if (Request.IsAuthenticated)
+        {
+            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+
                 <ul class="nav navbar-nav navbar-right">
-                    @Html.ActionLink("Items", "Index", "Items", null, null)
-                    @Html.ActionLink("Notification", "Index", "Notification", null, null)
+                    <li>@Html.ActionLink("Items", "Index", "Items", null, null)</li>
+                    <li>@Html.ActionLink("Notification", "Index", "Notification", null, null)</li>
                     <li><a>My bets</a></li>
                     <li><a>Account</a></li>
                     <li><a>New lot</a></li>
                     <li><a>Settings</a></li>
-                    <li><a>Log out</a></li>
+                    <li>
+                        @Html.ActionLink("Hello, " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                 </ul>
-            </div>
-        </div>
+            }
+        }
+        else
+        {
+            <ul class="nav navbar-nav navbar-right">
+                <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+            </ul>
+        }
+
+
     </div>
     <div class="container body-content">
         @RenderBody()
