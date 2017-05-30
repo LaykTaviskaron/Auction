@@ -154,6 +154,11 @@ namespace WebSite.Controllers
         [HttpPost]
         public ActionResult GetFeatures(List<byte> categoryIds)
         {
+            if (categoryIds == null)
+            {
+                return PartialView("FeatureFilter");
+            }
+
             ViewBag.Features = new Dictionary<string, IEnumerable<FeatureViewModel>>();
             foreach (var categoryId in categoryIds)
             {

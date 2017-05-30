@@ -30,7 +30,7 @@
                     <li>@Html.ActionLink("My bets", "Index", "Bet", null, null)</li>
                     <li>@Html.ActionLink("New lot", "Create", "Items", null, null)</li>
                     <li>
-                        @Html.ActionLink("Hello, " + User.Identity.Name + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                        @("Hello, " + User.Identity.Name + "!")
                     </li>
                     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                 </ul>

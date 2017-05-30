@@ -33,7 +33,7 @@
             <li><a>Settings</a></li>
             <li><a>Log out</a></li>
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @("Hello, " + User.Identity.Name + "!")
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
