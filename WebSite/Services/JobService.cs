@@ -28,10 +28,11 @@ namespace WebSite.Services
 
             if (item.BuyerId != null)
             {
+                var sellerEmail = context.Accounts.Find(item.SellerId).Email;
                 context.Notifications.Add(new Notification
                 {
                     Id = Guid.NewGuid(),
-                    Message = "Auction has been finished, you've purchased the product!",
+                    Message = "Auction has been finished, you've purchased the product!\nPlease contact seller via email: " + sellerEmail,
                     ReceiverId = item.BuyerId
                 });
             }

@@ -24,10 +24,11 @@ namespace WebSite.Controllers
                 User = this.DbContext.Accounts.Find(id)
             };
 
-            if (feedback == null)
+            if (feedback.User == null)
             {
                 return HttpNotFound();
             }
+
             return View(feedback);
         }
 

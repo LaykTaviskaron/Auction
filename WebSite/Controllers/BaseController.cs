@@ -6,8 +6,6 @@ namespace WebSite.Controllers
     {
         protected AuctionEntities DbContext { get; }
 
-
-
         public BaseController()
         {
             this.DbContext = new AuctionEntities();

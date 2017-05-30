@@ -16,8 +16,8 @@ namespace WebSite.Controllers
 {
     public class ItemsController : BaseController
     {
-        private JobService jobService = new JobService();
-        private static Dictionary<Guid, string> selectedFeatures = new Dictionary<Guid, string>();
+        private JobService _jobService = new JobService();
+        private static Dictionary<Guid, string> _selectedFeatures = new Dictionary<Guid, string>();
         private static string currentImage;
         private readonly string imagePattern = "data:image/gif;base64,{0}";
 
@@ -181,7 +181,7 @@ namespace WebSite.Controllers
         [HttpPost]
         public HttpResponseMessage SetFeature(Guid featureId, string slectedValue)
         {
-            selectedFeatures.Add(featureId, slectedValue);
+            _selectedFeatures.Add(featureId, slectedValue);
 
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
@@ -227,9 +227,9 @@ namespace WebSite.Controllers
                 var itemId = Guid.NewGuid();
                 item.Id = itemId;
                 this.DbContext.Items.Add(item);
-                jobService.ScheduleAuctionEnd(item.DueDateTime.Value, item.Id);
+                _jobService.ScheduleAuctionEnd(item.DueDateTime.Value, item.Id);
 
-                selectedFeatures.ForEach(x =>
+                _selectedFeatures.ForEach(x =>
                 {
                     this.DbContext.Specifications.Add(new Specification
                     {
@@ -242,7 +242,7 @@ namespace WebSite.Controllers
 
                 this.DbContext.SaveChanges();
                 currentImage = string.Empty;
-                selectedFeatures.Clear();
+                _selectedFeatures.Clear();
                 return RedirectToAction("Index");
             }
 
