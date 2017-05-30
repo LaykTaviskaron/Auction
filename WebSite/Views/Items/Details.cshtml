@@ -73,18 +73,23 @@
                         <p class="form-control-static no-padding" type="text">@Model.Description</p>
                     </div>
                 </div>
-
-                <div class="make-bet-form row form-group">
-                    <div class="col-sm-4 no-padding">
-                        Your bet
+                @if (Model.DueDateTime > DateTime.Now)
+                {
+                    <div class="make-bet-form row form-group">
+                        <div class="col-sm-4 no-padding">
+                            Your bet
+                        </div>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" required id="user-bet" />
+                        </div>
                     </div>
-                    <div class="col-sm-8">
-                        <input type="number" class="form-control" required id="user-bet"/>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>
+
+@if (Model.DueDateTime > DateTime.Now)
+{
 
     <div class="form-group row">
         <div class="col-sm-offset-4 col-md-8">
@@ -93,12 +98,8 @@
             </div>
         </div>
     </div>
+}
 </div>
-
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
 
 <script type="text/javascript" src="~/Scripts/bet.js"></script>
 

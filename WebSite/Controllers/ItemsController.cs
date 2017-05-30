@@ -21,8 +21,7 @@ namespace WebSite.Controllers
         private static string currentImage;
         private readonly string imagePattern = "data:image/gif;base64,{0}";
 
-        //GET: Items
-        public ActionResult Index()
+        private IEnumerable<ItemsViewModel> getAll()
         {
             var currentUserId = User.Identity.GetUserId();
             var currentUser = this.DbContext.Accounts.First();
@@ -49,54 +48,62 @@ namespace WebSite.Controllers
                 SellerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
                 UsersBet = userBet.Where(y => y.ItemId == x.Id).FirstOrDefault() != null ? userBet.Where(y => y.ItemId == x.Id).FirstOrDefault().Amout : null,
                 HighestBet = this.DbContext.Bets.ToList().Where(y => y.ItemId == x.Id).OrderBy(y => y.Amout).FirstOrDefault() != null ? this.DbContext.Bets.ToList().Where(y => y.ItemId == x.Id).OrderBy(y => y.Amout).FirstOrDefault().Amout : null
-            }).ToList();
+            }).OrderByDescending(x => x.DueTo).ToList();
 
-            var items = this.DbContext.Items;
-            return View(items);
+            return ViewBag.Items;
+        }
+
+        //GET: Items
+        public ActionResult Index()
+        {
+            getAll();
+            return View();
         }
 
         [HttpPost]
         public ActionResult Filter(FilterModel filterModel)
         {
-            if (filterModel == null || !filterModel.Categories.Any())
+            if (filterModel == null || filterModel.Categories == null)
             {
-                return null;
+                ViewBag.Items = getAll();
             }
-
-            var currentUserId = User.Identity.GetUserId();
-            var currentUser = this.DbContext.Accounts.First();
-            var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
-            var ids = new List<Guid>();
-
-            var items = this.DbContext.Items.Where(x => filterModel.Categories.Contains(x.CategoryId.Value)).ToList();
-            if (filterModel.Features != null && filterModel.Features.Any())
+            else
             {
-                var feature =
-                    this.DbContext.Specifications.FirstOrDefault(x => filterModel.Features.Contains(x.SelectedValue));
-                if (feature != null)
+                var currentUserId = User.Identity.GetUserId();
+                var currentUser = this.DbContext.Accounts.First();
+                var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
+                var ids = new List<Guid>();
+
+                var items = this.DbContext.Items.Where(x => filterModel.Categories.Contains(x.CategoryId.Value)).ToList();
+                if (filterModel.Features != null && filterModel.Features.Any())
                 {
-                    ids.Add(feature.Id);
-                }
+                    var feature =
+                        this.DbContext.Specifications.FirstOrDefault(x => filterModel.Features.Contains(x.SelectedValue));
+                    if (feature != null)
+                    {
+                        ids.Add(feature.Id);
+                    }
 
-                items = items.Where(x => ids.Contains(x.Id)).ToList();
+                    items = items.Where(x => ids.Contains(x.Id)).ToList();
+                }
+                ViewBag.Items = items.Select(x => new ItemsViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    DueTo = x.DueDateTime.Value,
+                    Image = x.Image,
+                    SellerId = x.SellerId.Value,
+                    SellerName = fullName,
+                    SellerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
+                    UsersBet =
+                                this.DbContext.Bets.ToList()
+                                    .FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id)
+                                    .Amout,
+                    HighestBet =
+                                this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
+                }).ToList();
             }
-            ViewBag.Items = items.Select(x => new ItemsViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                DueTo = x.DueDateTime.Value,
-                Image = x.Image,
-                SellerId = x.SellerId.Value,
-                SellerName = fullName,
-                SellerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
-                UsersBet =
-                            this.DbContext.Bets.ToList()
-                                .FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id)
-                                .Amout,
-                HighestBet =
-                            this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
-            }).ToList();
 
             return PartialView("ItemsView");
         }

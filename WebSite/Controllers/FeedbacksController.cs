@@ -59,7 +59,7 @@ namespace WebSite.Controllers
                 user.Rate = (byte)average;
 
                 this.DbContext.SaveChanges();
-                return Redirect("Items/Index");
+                return RedirectToAction("Index", "Items");
             }
 
             return View(feedback);
