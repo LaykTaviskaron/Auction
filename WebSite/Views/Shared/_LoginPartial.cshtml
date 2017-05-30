@@ -30,7 +30,7 @@
             <li>@Html.ActionLink("Мої ставки", "Index", "Bet", null, null)</li>
             <li>@Html.ActionLink("Створити лот", "Create", "Items", null, null)</li>
             <li>
-                @("Привіт, " + User.Identity.Name + "!")
+                <a>@("Привіт, " + User.Identity.Name + "!")</a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>

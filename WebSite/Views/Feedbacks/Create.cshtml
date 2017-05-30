@@ -5,14 +5,14 @@
     ViewBag.Rates = new List<byte> { 1, 2, 3, 4, 5 };
 }
 
-<h2>Create</h2>
+<h2>Відгук</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.User.Id)
     <div class="form-horizontal feedback-form">
-        <h4>Leave feedback for @string.Format("{0} {1}", Model.User.FirstName, Model.User.LastName)</h4>
+        <h4>Залишити відгук для @string.Format("{0} {1}", Model.User.FirstName, Model.User.LastName)</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -64,5 +64,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("До списку товарів", "Index")
 </div>

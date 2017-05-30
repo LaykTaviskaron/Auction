@@ -294,6 +294,9 @@
     <Content Include="Content\Images\feature-rating.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Images\feature-fire.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\Images\main-page-image.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

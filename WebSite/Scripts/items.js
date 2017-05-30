@@ -59,7 +59,14 @@ function clearFilter() {
 }
 
 function timer(element) {
-    var countDownDate = new Date(element.attr('time')).getTime();
+    var from = element.attr('time');
+    var date = from.split(' ')[0];
+    var time = from.split(' ')[1];
+    var to = new Date();
+    to.setFullYear(date.split('.')[2], date.split('.')[1], date.split('.')[0]);
+    to.setHours(time.split(':')[0]);
+    to.setMinutes(time.split(':')[1]);
+    var countDownDate = to.getTime();
     var x = setInterval(function () {
         var now = new Date().getTime();
         var distance = countDownDate - now;

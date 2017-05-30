@@ -170,6 +170,7 @@ textarea {
 .items-all img{
     max-height: 200px;
     width: auto;
+    max-width: 200px;
 }
 
 .items-all .description-block {
