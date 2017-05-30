@@ -10,13 +10,13 @@ namespace WebSite.Models
     {
         public System.Guid Id { get; set; }
 
-        [Display(Name = "Rate")]
+        [Display(Name = "Рейтинг")]
         public Nullable<byte> Rate { get; set; }
 
-        [Display(Name = "Description")]
+        [Display(Name = "Опис")]
         public string Description { get; set; }
 
-        [Display(Name = "Seller")]
+        [Display(Name = "Продавець")]
         public Account User { get; set; }
     }
 }

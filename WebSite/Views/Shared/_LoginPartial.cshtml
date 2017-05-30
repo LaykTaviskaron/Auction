@@ -20,20 +20,17 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("Вийти", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            @Html.ActionLink("Items", "Index", "Items", null, null)
-            @Html.ActionLink("Notification", "Index", "Notification", null, null)
-            <li><a>My bets</a></li>
-            <li><a>Account</a></li>
-            <li><a>New lot</a></li>
-            <li><a>Settings</a></li>
-            <li><a>Log out</a></li>
+            <li>@Html.ActionLink("Товари", "Index", "Items", null, null)</li>
+            <li>@Html.ActionLink("Оповіщення", "Index", "Notification", null, null)</li>
+            <li>@Html.ActionLink("Мої ставки", "Index", "Bet", null, null)</li>
+            <li>@Html.ActionLink("Створити лот", "Create", "Items", null, null)</li>
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @("Привіт, " + User.Identity.Name + "!")
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
@@ -42,8 +39,8 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+        <li>@Html.ActionLink("Зареєструватись", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Увійти", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }
 
@@ -53,7 +50,7 @@ else
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - Auction Online</p>
+            <p>&copy; @DateTime.Now.Year - Аукціон онлайн</p>
         </footer>
     </div>
 </body>

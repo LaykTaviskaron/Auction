@@ -6,7 +6,7 @@
         </div>
         <div class="col-sm-8">
             <select class="form-control fix-select-margin" id="feature-@feature.Id" onchange="setSelectedFeature('@feature.Id')">
-                <option value="" disabled selected>Select a feature</option>
+                <option value="" disabled selected>Оберіть характеристику</option>
                 @foreach (var value in feature.PosibleValues)
                 {
                     <option>@value</option>

@@ -1,14 +1,14 @@
 ﻿@model WebSite.Item
 
 @{
-    ViewBag.Title = "Lot deatils";
+    ViewBag.Title = "Перегляд товару";
 }
 
 <h2>Details</h2>
 
 <div class="create-item-form">
     <div class="col-sm-2">
-            <a class="btn btn-default" href="/Items"><span class="glyphicon glyphicon-chevron-left"></span>Back</a>
+            <a class="btn btn-default" href="/Items"><span class="glyphicon glyphicon-chevron-left"></span>Назад</a>
     </div>
     <div class="col-sm-10">
         <div class="row form-group">
@@ -18,7 +18,7 @@
             <div class="col-sm-7 description-container">
                 <div class="row form-group">
                     <div class="col-sm-4 no-padding">
-                        Name
+                        Ім'я
                     </div>
                     <div class="col-md-8">
                         <p class="form-control-static no-padding" type="text">@Model.Name</p>
@@ -27,7 +27,7 @@
 
                 <div class="row form-group">
                     <div class="col-sm-4 no-padding">
-                        Category
+                        Категорія
                     </div>
                     <div class="col-sm-8">
                         <p class="form-control-static no-padding" type="text">@Model.Category.Name</p>
@@ -48,17 +48,17 @@
 
                 <div class="form-group row">
                     <div class="col-sm-4 no-padding">
-                        Current highest bet
+                        Поточна найвища ставка
                         <span class="glyphicon glyphicon-fire"></span>
                     </div>
                     <div class="col-md-8">
-                        <p class="form-control-static no-padding" type="text">@(Model.Bet != null ? Model.Bet.Amout.ToString() : "No bets for this item")</p>
+                        <p class="form-control-static no-padding" type="text">@(Model.Bet != null ? Model.Bet.Amout.ToString() : "Немає ставок на цей товар")</p>
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <div class="col-sm-4 no-padding">
-                        Aviable to
+                        Дата закінчення
                     </div>
                     <div class="col-md-8">
                         <p class="form-control-static no-padding" type="text">@Model.DueDateTime</p>
@@ -67,7 +67,7 @@
 
                 <div class="row form-group">
                     <div class="col-sm-4 no-padding">
-                        General description
+                        Загальний опис
                     </div>
                     <div class="col-sm-8">
                         <p class="form-control-static no-padding" type="text">@Model.Description</p>
@@ -77,7 +77,7 @@
                 {
                     <div class="make-bet-form row form-group">
                         <div class="col-sm-4 no-padding">
-                            Your bet
+                            Ваша ставка
                         </div>
                         <div class="col-sm-8">
                             <input type="number" class="form-control" required id="user-bet" />
@@ -94,7 +94,7 @@
     <div class="form-group row">
         <div class="col-sm-offset-4 col-md-8">
             <div class="col-sm-offset-4 col-sm-8">
-                <input type="button" value="Make a bet" class="btn btn-primary create-btn" onclick="makeABet('@Model.MinBet', @(Model.Bet == null ? "null" : Model.Bet.Amout.ToString()), '@Model.Id')"/>
+                <input type="button" value="Зробити ставку" class="btn btn-primary create-btn" onclick="makeABet('@Model.MinBet', @(Model.Bet == null ? "null" : Model.Bet.Amout.ToString()), '@Model.Id')"/>
             </div>
         </div>
     </div>

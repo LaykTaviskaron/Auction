@@ -31,7 +31,7 @@ namespace WebSite.Services
                 context.Notifications.Add(new Notification
                 {
                     Id = Guid.NewGuid(),
-                    Message = "Auction has been finished, you've purchased the product!",
+                    Message = "Аукціон завершився, ваша ставка виграла!",
                     ReceiverId = item.BuyerId
                 });
             }
@@ -39,7 +39,7 @@ namespace WebSite.Services
             context.Notifications.Add(new Notification
             {
                 Id = Guid.NewGuid(),
-                Message = "Auction has been finished!",
+                Message = "Аукціон завершився",
                 ReceiverId = item.SellerId
             });
 

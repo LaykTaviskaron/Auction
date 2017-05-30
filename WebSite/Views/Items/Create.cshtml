@@ -3,7 +3,7 @@
 @model WebSite.Item
 
 @{
-    ViewBag.Title = "Create new lot";
+    ViewBag.Title = "Додати новий товар";
 }
 
 <h2>Create new lot</h2>
@@ -24,13 +24,13 @@
                     <br />
                     <label class="btn btn-default" for="file-btn">
                         <input id="file-btn" type="file" style="display: none;" onchange="uploadImage()">
-                        Add image
+                        Додати зображення
                     </label>
                 </div>
                 <div class="col-sm-8">
                     <div class="row form-group">
                         <div class="col-sm-4 no-padding">
-                            Name
+                            Ім'я
                         </div>
                         <div class="col-md-8">
                             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control datepicker", @required = "required" } })
@@ -40,7 +40,7 @@
 
                     <div class="row form-group">
                         <div class="col-sm-4 no-padding">
-                            Select a category
+                            Оберіть категорію
                         </div>
                         <div class="col-sm-8">
                             @Html.DropDownList("CategoryId", null, htmlAttributes: new { @class = "form-control", @required = "required", @onchange = "getFeatures()", @id = "categoryId" })
@@ -53,7 +53,7 @@
 
                     <div class="form-group row">
                         <div class="col-sm-4 no-padding">
-                            Minimal aviable bet
+                            Мінімальна ставка
                         </div>
                         <div class="col-md-8">
                             @Html.EditorFor(model => model.MinBet, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
@@ -63,7 +63,7 @@
 
                     <div class="row form-group">
                         <div class="col-sm-4 no-padding">
-                            Aviable to
+                            Дата закінчення аукціону
                         </div>
                         <div class="col-md-8">
                             <div class='input-group' id='datetimepicker'>
@@ -78,7 +78,7 @@
                     
                     <div class="row form-group">
                         <div class="col-sm-4 no-padding">
-                            General description
+                            Загальний опис
                         </div>
                         <div class="col-sm-8">
                             @Html.TextAreaFor(model => model.Description, new { @class = "form-control description", @required = "required" })
@@ -91,7 +91,7 @@
         <div class="form-group row">
             <div class="col-sm-offset-4 col-md-8">
                 <div class="col-sm-offset-4 col-sm-8">
-                    <input type="submit" value="Create" class="btn btn-primary create-btn" />
+                    <input type="submit" value="Створити" class="btn btn-primary create-btn" />
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Повернутись назад", "Index")
 </div>
 
 @section Scripts {
