@@ -16,12 +16,12 @@ namespace WebSite
     {
         public System.Guid Id { get; set; }
         public string Message { get; set; }
-        public Nullable<System.Guid> ItemId { get; set; }
-        public Nullable<System.Guid> ReceiverId { get; set; }
+        public System.Guid ItemId { get; set; }
+        public System.Guid ReceiverId { get; set; }
         public Nullable<byte> NotificationTypeId { get; set; }
     
         public virtual Account Account { get; set; }
-        public virtual NotificcationType NotificcationType { get; set; }
         public virtual Item Item { get; set; }
+        public virtual NotificcationType NotificcationType { get; set; }
     }
 }

@@ -1,49 +1,66 @@
-﻿@using WebSite.Models
-@{
+﻿@{
     Layout = "../Shared/_Layout.cshtml";
 }
-@{
-    BetViewModel data = (BetViewModel)ViewData["usersBets"];
-}
-<div class="col-sm-4"></div>
-<div class="col-sm-8">
-    @foreach (var item in data.Items)
+<script type="text/javascript" src="~/Scripts/bet.js"></script>
+
+<h2>Your bets</h2>
+<br />
+<div class="col-sm-12">
+    @if (ViewBag.UserBets.Count == 0)
     {
-        <div class="row">
-            <div class="row">
-                <div class="col-sm-1">
-                    <img src="" alt="image"/>
-                </div>
-                <div class="col-sm-9">
-                    <div class="row">
-                        <a>
-                            <h2>@item.Name</h2></a>
+        <h1>You don't have any bets.
+        <br />
+        You can make them <a href="~/Views/Items/Index.cshtml">here</a></h1>
+    }
+    else
+    {
+        foreach (var bet in ViewBag.UserBets)
+        {
+            <div class="row bet">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="@bet.Item.Image" alt="image"/>
                     </div>
-                    <div class="row">
-                        <p>@item.Description</p>
+                    <div class="col-sm-8">
+                        <div class="row">
+                            <a>
+                                <h2>@bet.Item.Name</h2></a>
+                        </div>
+                        <div class="row">
+                            <p>@bet.Item.Description</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-offset-4 row">
+                    <div class="col-sm-2 no-padding">
+                        Your bet: @(bet.UsersBet.Amout)
+                    </div>
+                    <div class="col-sm-2">
+                        Highest bet: @(bet.HighestBet.Amout)
+                    </div>
+                    <div class="col-sm-4">
+                        Time to end: <span class="timer" time="@(bet.Item.DueDateTime)"></span>
+                    </div>
+                    <div class="col-sm-4">
+                        Seller: @GetFormatedSeller(bet.Account)
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-2">
-                    Your bet: @data.UsersBets.Where(x => x.ItemId == item.Id).Select(x => x.Amout)
-                </div>
-                <div class="col-sm-2">
-                    Highest bet: @(data.HighestBets.FirstOrDefault(x => x.Id == item.Id)?.Value)
-                </div>
-                <div class="col-sm-4">
-                    Time to end: timer
-                </div>
-                <div class="col-sm-4">
-                    Seller: @GetFormatedName(data.Accounts, item.Id) + stars
-                </div>
-            </div>
-        </div>
+        }
     }
 </div>
 
-@helper GetFormatedName(List<Account> accounts, Guid id)
+@helper GetFormatedSeller(Account account)
 {
-    var user = accounts.First(x => x.Id == id);
-    <span>@($"{user.FirstName} {user.LastName}")</span>
+    <a href="/Feedbacks/Create/@account.Id">
+        <span>@($"{account.FirstName} {account.LastName}")</span>
+    </a>
+    <br />
+    if (account.Rate != null)
+    {
+        for (int i = 0; i < account.Rate.Value; i++)
+        {
+            <span class="glyphicon glyphicon-star"></span>
+        }
+    }
 }

@@ -64,27 +64,28 @@
     <div class="item-target">
         @Html.Partial("ItemsView")
     </div>
-    @*@foreach (var category in ViewBag.ByCategories)
-    {
-        <br />
-        <div class="row">
-            <div class="caption">
-                <h1>The hottest in @category.Key</h1>
-            </div>
-            <div class="horizontal-scroll-wrapper">
-                <ul>
-                    @foreach (var item in (List<Item>)category.Value)
-                    {
-                        <li>
-                            <img src="@item.Image" alt="image" />
-                            <div class="">
-                                <span class="image-caption">@item.Name</span>
-                            </div>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
-    }*@
+        @*@foreach (var category in ViewBag.ByCategories)
+            {
+                <br />
+                <div class="row">
+                    <div class="caption">
+                        <h1>The hottest in @category.Key</h1>
+                    </div>
+                    <div class="horizontal-scroll-wrapper">
+        <a href="~/Views/Items/Index.cshtml">~/Views/Items/Index.cshtml</a>
+                        <ul>
+                            @foreach (var item in (List<Item>)category.Value)
+                            {
+                                <li>
+                                    <img src="@item.Image" alt="image" />
+                                    <div class="">
+                                        <span class="image-caption">@item.Name</span>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            }*@
 
 </div>

@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
-
 namespace WebSite
 {
     using System;
@@ -27,21 +25,19 @@ namespace WebSite
         public System.Guid Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = false)]
-        [DataType(DataType.DateTime)]
-        public Nullable<System.DateTime> DueDateTime { get; set; }
+        public System.DateTime DueDateTime { get; set; }
         public Nullable<bool> IsAvailable { get; set; }
-        public Nullable<System.Guid> SellerId { get; set; }
-        public Nullable<byte> CategoryId { get; set; }
-        public Nullable<decimal> MinBet { get; set; }
+        public System.Guid SellerId { get; set; }
+        public byte CategoryId { get; set; }
+        public decimal MinBet { get; set; }
         public Nullable<bool> IsPayed { get; set; }
         public Nullable<bool> IsReceived { get; set; }
         public Nullable<System.Guid> BuyerId { get; set; }
         public Nullable<System.Guid> HighestBetId { get; set; }
         public string Image { get; set; }
     
-        public virtual Account Account { get; set; }
-        public virtual Account Account1 { get; set; }
+        public virtual Account BuyerAccount { get; set; }
+        public virtual Account SellerAccount { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bet> Bets { get; set; }
         public virtual Bet Bet { get; set; }

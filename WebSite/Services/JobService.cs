@@ -33,7 +33,7 @@ namespace WebSite.Services
                 {
                     Id = Guid.NewGuid(),
                     Message = "Auction has been finished, you've purchased the product!\nPlease contact seller via email: " + sellerEmail,
-                    ReceiverId = item.BuyerId
+                    ReceiverId = item.BuyerId.Value
                 });
             }
 

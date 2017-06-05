@@ -23,10 +23,10 @@ GO
 CREATE TABLE [Account]
 ( 
 	[Id]                 uniqueidentifier  NOT NULL ,
-	[FirstName]          nvarchar(50)  NULL ,
-	[LastName]           nvarchar(50)  NULL ,
+	[FirstName]          nvarchar(50)  NOT NULL ,
+	[LastName]           nvarchar(50)  NOT NULL ,
 	[Rate]               tinyint  NULL ,
-	[Email]              varchar(Max)  NULL ,
+	[Email]              varchar(Max)  NOT NULL ,
 	CONSTRAINT [XPKUser] PRIMARY KEY  CLUSTERED ([Id] ASC)
 )
 go
@@ -34,9 +34,9 @@ go
 CREATE TABLE [Bet]
 ( 
 	[Id]                 uniqueidentifier  NOT NULL ,
-	[ItemId]             uniqueidentifier  NULL ,
-	[BuyerId]            uniqueidentifier  NULL ,
-	[Amout]              decimal(12,2)  NULL ,
+	[ItemId]             uniqueidentifier  NOT NULL ,
+	[BuyerId]            uniqueidentifier  NOT NULL ,
+	[Amout]              decimal(12,2)  NOT NULL ,
 	[BetTypeId]          tinyint  NULL ,
 	CONSTRAINT [XPKBet] PRIMARY KEY  CLUSTERED ([Id] ASC)
 )
@@ -96,9 +96,9 @@ go
 CREATE TABLE [Feedback]
 ( 
 	[Id]                 uniqueidentifier  NOT NULL ,
-	[Rate]               tinyint  NULL ,
-	[Description]        nvarchar(max)  NULL ,
-	[UserId]             uniqueidentifier  NULL ,
+	[Rate]               tinyint  NOT NULL ,
+	[Description]        nvarchar(max)  NOT NULL ,
+	[UserId]             uniqueidentifier  NOT NULL ,
 	CONSTRAINT [XPKFeedback] PRIMARY KEY  CLUSTERED ([Id] ASC)
 )
 go
@@ -112,13 +112,13 @@ go
 CREATE TABLE [Item]
 ( 
 	[Id]                 uniqueidentifier  NOT NULL ,
-	[Name]               nvarchar(80)  NULL ,
-	[Description]        nvarchar(max)  NULL ,
-	[DueDateTime]        datetime  NULL ,
+	[Name]               nvarchar(80)  NOT NULL ,
+	[Description]        nvarchar(max)  NOT NULL ,
+	[DueDateTime]        datetime  NOT NULL ,
 	[IsAvailable]        bit  NULL ,
-	[SellerId]           uniqueidentifier  NULL ,
-	[CategoryId]         tinyint  NULL ,
-	[MinBet]             decimal(12,2)  NULL ,
+	[SellerId]           uniqueidentifier  NOT NULL ,
+	[CategoryId]         tinyint  NOT NULL ,
+	[MinBet]             decimal(12,2)  NOT NULL ,
 	[IsPayed]            bit  NULL ,
 	[IsReceived]         bit  NULL ,
 	[BuyerId]            uniqueidentifier  NULL ,
@@ -155,9 +155,9 @@ go
 CREATE TABLE [Notification]
 ( 
 	[Id]                 uniqueidentifier  NOT NULL ,
-	[Message]            nvarchar(max)  NULL ,
-	[ItemId]             uniqueidentifier  NULL ,
-	[ReceiverId]         uniqueidentifier  NULL ,
+	[Message]            nvarchar(max)  NOT NULL ,
+	[ItemId]             uniqueidentifier  NOT NULL ,
+	[ReceiverId]         uniqueidentifier  NOT NULL ,
 	[NotificationTypeId] tinyint  NULL ,
 	CONSTRAINT [XPKNotification] PRIMARY KEY  CLUSTERED ([Id] ASC)
 )

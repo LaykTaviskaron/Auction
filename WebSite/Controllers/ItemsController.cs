@@ -22,11 +22,10 @@ namespace WebSite.Controllers
         private static string currentImage;
         private readonly string imagePattern = "data:image/gif;base64,{0}";
 
-        private IEnumerable<ItemsViewModel> getAll()
+        private IEnumerable<ItemsViewModel> GetAll()
         {
             var currentUserId = User.Identity.GetUserId();
             var currentUser = this.DbContext.Accounts.First();
-            var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
             ViewBag.Hottest = this.DbContext.Items.OrderBy(y => y.DueDateTime).ToList().Take(10);
             ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
             this.DbContext.Categories.ForEach(x =>
@@ -35,21 +34,22 @@ namespace WebSite.Controllers
                     x.Name,
                     this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
             });
-            var userBet = this.DbContext.Bets.ToList().Where(y => y.BuyerId == new Guid(currentUserId));
+
             ViewBag.Categories = this.DbContext.Categories.ToList();
-            ViewBag.Items = this.DbContext.Items.Select(x => new ItemsViewModel
+            ViewBag.Items = this.DbContext.Items.Any() ? this.DbContext.Items.Select(x => new ItemsViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
-                DueTo = x.DueDateTime.Value,
+                DueTo = x.DueDateTime,
                 Image = x.Image,
-                SellerId = x.SellerId.Value,
-                SellerName = fullName,
-                SellerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
-                UsersBet = userBet.Where(y => y.ItemId == x.Id).FirstOrDefault() != null ? userBet.Where(y => y.ItemId == x.Id).FirstOrDefault().Amout : null,
-                HighestBet = this.DbContext.Bets.ToList().Where(y => y.ItemId == x.Id).OrderBy(y => y.Amout).FirstOrDefault() != null ? this.DbContext.Bets.ToList().Where(y => y.ItemId == x.Id).OrderBy(y => y.Amout).FirstOrDefault().Amout : null
-            }).OrderByDescending(x => x.DueTo).ToList();
+                SellerId = x.SellerId,
+                SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
+                SellerRating = x.SellerAccount.Rate.Value,
+                UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
+                HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(null).Max(y => y.Amout)
+            }).OrderByDescending(x => x.DueTo).ToList()
+            : Enumerable.Empty<ItemsViewModel>();
 
             return ViewBag.Items;
         }
@@ -57,7 +57,7 @@ namespace WebSite.Controllers
         //GET: Items
         public ActionResult Index()
         {
-            getAll();
+            GetAll();
             return View();
         }
 
@@ -66,16 +66,13 @@ namespace WebSite.Controllers
         {
             if (filterModel == null || filterModel.Categories == null)
             {
-                ViewBag.Items = getAll();
+                ViewBag.Items = GetAll();
             }
             else
             {
-                var currentUserId = User.Identity.GetUserId();
-                var currentUser = this.DbContext.Accounts.First();
-                var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
                 var ids = new List<Guid>();
+                var items = this.DbContext.Items.Where(x => filterModel.Categories.Contains(x.CategoryId)).ToList();
 
-                var items = this.DbContext.Items.Where(x => filterModel.Categories.Contains(x.CategoryId.Value)).ToList();
                 if (filterModel.Features != null && filterModel.Features.Any())
                 {
                     var feature =
@@ -87,23 +84,20 @@ namespace WebSite.Controllers
 
                     items = items.Where(x => ids.Contains(x.Id)).ToList();
                 }
+
                 ViewBag.Items = items.Select(x => new ItemsViewModel
                 {
                     Id = x.Id,
                     Name = x.Name,
                     Description = x.Description,
-                    DueTo = x.DueDateTime.Value,
+                    DueTo = x.DueDateTime,
                     Image = x.Image,
-                    SellerId = x.SellerId.Value,
-                    SellerName = fullName,
-                    SellerRating = this.DbContext.Accounts.ToList().FirstOrDefault(y => y.Id == x.SellerId.Value).Rate.Value,
-                    UsersBet =
-                                this.DbContext.Bets.ToList()
-                                    .FirstOrDefault(y => y.BuyerId == new Guid(currentUserId) && y.ItemId == x.Id)
-                                    .Amout,
-                    HighestBet =
-                                this.DbContext.Bets.ToList().FirstOrDefault(y => y.Id == x.HighestBetId.Value).Amout.Value
-                }).ToList();
+                    SellerId = x.SellerId,
+                    SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
+                    SellerRating = x.SellerAccount.Rate != null ? (int?)x.SellerAccount.Rate.Value : null,
+                    UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
+                    HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(null).Max(y => y.Amout)
+                }).OrderByDescending(x => x.DueTo).ToList();
             }
 
             return PartialView("ItemsView");
@@ -197,7 +191,7 @@ namespace WebSite.Controllers
                 Id = id,
                 Amout = amount,
                 ItemId = itemId,
-                //add userId
+                BuyerId = new Guid(User.Identity.GetUserId())
             });
 
             var item = this.DbContext.Items.Find(itemId);
@@ -205,7 +199,7 @@ namespace WebSite.Controllers
 
             this.DbContext.SaveChanges();
 
-            return RedirectToAction("Index");
+            return Redirect("Items\\Index");
         }
 
         // POST: Items/Create
@@ -228,7 +222,7 @@ namespace WebSite.Controllers
                 var itemId = Guid.NewGuid();
                 item.Id = itemId;
                 this.DbContext.Items.Add(item);
-                _jobService.ScheduleAuctionEnd(item.DueDateTime.Value, item.Id);
+                _jobService.ScheduleAuctionEnd(item.DueDateTime, item.Id);
 
                 _selectedFeatures.ForEach(x =>
                 {

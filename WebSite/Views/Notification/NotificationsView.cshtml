@@ -1,18 +1,29 @@
-﻿@foreach (var item in ViewBag.Notifications)
+﻿@if (ViewBag.Notifications.Count == 0)
 {
-    <div class="row items-all">
-        <div class="row">
-            <br />
-            <div class="col-sm-8 description-block">
-                <div class="row">
-                    @item.Message
+    <h1>
+        You don't have any bets.
+        <br />
+        You can make them <a href="~/Views/Items/Index.cshtml">here</a>
+    </h1>
+}
+else
+{
+    foreach (var item in ViewBag.Notifications)
+    {
+        <div class="row items-all">
+            <div class="row">
+                <br />
+                <div class="col-sm-8 description-block">
+                    <div class="row">
+                        @item.Message
+                    </div>
                 </div>
-            </div>
-            <div class="col-sm-4 description-block">
-                <div class="row">
-                    @Html.ActionLink("Delete", "Delete", "Notification", routeValues: new { id = item.Id }, htmlAttributes: new { id = "loginLink" })
+                <div class="col-sm-4 description-block">
+                    <div class="row">
+                        @Html.ActionLink("Delete", "Delete", "Notification", routeValues: new { id = item.Id }, htmlAttributes: new { id = "loginLink" })
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 }

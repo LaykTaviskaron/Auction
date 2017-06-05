@@ -26,9 +26,9 @@
 
                 <ul class="nav navbar-nav navbar-right">
                     <li>@Html.ActionLink("Items", "Index", "Items", null, null)</li>
-                    <li>@Html.ActionLink("Notification", "Index", "Notification", null, null)</li>
-                    <li>@Html.ActionLink("My bets", "Index", "Bet", null, null)</li>
                     <li>@Html.ActionLink("New lot", "Create", "Items", null, null)</li>
+                    <li>@Html.ActionLink("My bets", "Index", "Bet", null, null)</li>
+                    <li>@Html.ActionLink("Notification", "Index", "Notification", null, null)</li>
                     <li>
                         <a>@("Hello, " + User.Identity.Name + "!")</a>
                     </li>
