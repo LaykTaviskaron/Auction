@@ -170,6 +170,7 @@ textarea {
 .items-all img{
     max-height: 200px;
     width: auto;
+    max-width: 200px;
 }
 
 .items-all .description-block {
@@ -197,4 +198,11 @@ span.error {
 
 .bootstrap-datetimepicker-widget {
     text-align: center;
+}
+
+.bet img {
+    max-height: 200px;
+    width: auto;
+    display: block;
+    margin: auto;
 }

@@ -15,9 +15,9 @@ namespace WebSite
     public partial class Feedback
     {
         public System.Guid Id { get; set; }
-        public Nullable<byte> Rate { get; set; }
+        public byte Rate { get; set; }
         public string Description { get; set; }
-        public Nullable<System.Guid> UserId { get; set; }
+        public System.Guid UserId { get; set; }
     
         public virtual Account Account { get; set; }
     }

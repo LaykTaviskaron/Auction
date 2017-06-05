@@ -12,18 +12,17 @@ namespace WebSite
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using WebSite.Models;
-
+    
     public partial class AuctionEntities : DbContext
     {
         public AuctionEntities()
-            : base("name=Auction")
+            : base("name=AuctionEntities")
         {
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer<ApplicationDbContext>(new CreateDatabaseIfNotExists<ApplicationDbContext>());
+            throw new UnintentionalCodeFirstException();
         }
     
         public virtual DbSet<Account> Accounts { get; set; }
@@ -32,9 +31,9 @@ namespace WebSite
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CategoryFeature> CategoryFeatures { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<NotificcationType> NotificcationTypes { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
     }
 }

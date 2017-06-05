@@ -75,6 +75,17 @@
                 </div>
                 @if (Model.DueDateTime > DateTime.Now)
                 {
+                    if (Model.Bet == null)
+                    {
+                        <div class="row form-group">
+                            <div class="col-sm-4 no-padding">
+                                Minimal bet
+                            </div>
+                            <div class="col-sm-8">
+                                <p class="form-control-static no-padding" type="text">@Model.MinBet</p>
+                            </div>
+                        </div>
+                    }
                     <div class="make-bet-form row form-group">
                         <div class="col-sm-4 no-padding">
                             Your bet

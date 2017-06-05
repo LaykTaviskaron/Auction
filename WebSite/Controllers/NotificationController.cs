@@ -19,18 +19,7 @@ namespace WebSite.Controllers
         public ActionResult Index()
         {
             var currentUserId = User.Identity.GetUserId();
-            var currentUser = this.DbContext.Accounts.Where(x => x.Email == "artem.sokolov@sigma.software").FirstOrDefault();
-            //var currentUser = this.DbContext.Accounts.Where(x => x.Email == "olena.slukhaievska@sigma.software").FirstOrDefault();
-
-            //this.DbContext.Notifications.Add(new Notification
-            //{
-            //    Account = currentUser,
-            //    Id = Guid.NewGuid(),
-            //    ReceiverId = currentUser?.Id,
-            //    Message = "Welcome to your account"
-            //});
-
-            this.DbContext.SaveChanges();
+            var currentUser = this.DbContext.Accounts.Find(new Guid(currentUserId));
 
             ViewBag.Notifications = this.DbContext.Notifications.Select(x => new NotificationViewModel
             {

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace WebSite.Models
+﻿namespace WebSite.Models
 {
     public class BetViewModel
     {
-        public Guid UserId { get; set; }
+        public Item Item { get; set; }
 
-        public List<Item> Items { get; set; }
+        public Bet UsersBet { get; set; }
 
-        public List<Bet> UsersBets { get; set; }
+        public Bet HighestBet { get; set; }
 
-        public List<HighestBetModel> HighestBets { get; set; }
-
-        public List<Account> Accounts { get; set; }
+        public Account Account { get; set; }
     }
 }

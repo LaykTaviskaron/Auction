@@ -11,7 +11,7 @@ namespace WebSite.Models
         public System.Guid Id { get; set; }
 
         [Display(Name = "Rate")]
-        public Nullable<byte> Rate { get; set; }
+        public byte Rate { get; set; }
 
         [Display(Name = "Description")]
         public string Description { get; set; }

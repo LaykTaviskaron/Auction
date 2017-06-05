@@ -21,14 +21,14 @@ namespace WebSite
         }
     
         public System.Guid Id { get; set; }
-        public Nullable<System.Guid> ItemId { get; set; }
-        public Nullable<System.Guid> BuyerId { get; set; }
-        public Nullable<decimal> Amout { get; set; }
+        public System.Guid ItemId { get; set; }
+        public System.Guid BuyerId { get; set; }
+        public decimal Amout { get; set; }
         public Nullable<byte> BetTypeId { get; set; }
     
         public virtual Account Account { get; set; }
-        public virtual BetType BetType { get; set; }
         public virtual Item Item { get; set; }
+        public virtual BetType BetType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Item> Items { get; set; }
     }
