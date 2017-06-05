@@ -14,6 +14,7 @@ using WebSite.Services;
 
 namespace WebSite.Controllers
 {
+    [Authorize]
     public class ItemsController : BaseController
     {
         private JobService _jobService = new JobService();

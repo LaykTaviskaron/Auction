@@ -73,6 +73,7 @@ namespace WebSite.Controllers
             {
                 return View(model);
             }
+            return RedirectToAction("Index", "Items");
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -80,7 +81,7 @@ namespace WebSite.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Index", "Items");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
