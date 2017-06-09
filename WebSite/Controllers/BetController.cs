@@ -12,6 +12,7 @@ namespace WebSite.Controllers
         public ActionResult Index()
         {
             var userId = new Guid(User.Identity.GetUserId());
+            ViewBag.CurrentUserId = userId;
             var bets = this.DbContext.Bets.Where(x => x.BuyerId == userId).ToList();
             var itemIds = bets.Select(x => x.ItemId).ToList();
             var items = this.DbContext.Items.ToList()
@@ -26,6 +27,23 @@ namespace WebSite.Controllers
 
             ViewBag.UserBets = items;
             return View();
+        }
+
+        [HttpPost]
+        public HttpStatusCodeResult ConfirmReceived(Guid itemId)
+        {
+            var item = this.DbContext.Items.Find(itemId);
+            item.IsReceived = true;
+            this.DbContext.Notifications.Add(new Notification
+            {
+                Id = Guid.NewGuid(),
+                ItemId = itemId,
+                ReceiverId = item.SellerId,
+                Message = $"Your item {item.Name} has been received. Confirm payment, when you'll be ready."
+            });
+            this.DbContext.SaveChanges();
+
+            return new HttpStatusCodeResult(200);
         }
 
         // GET: Bet/Details/5

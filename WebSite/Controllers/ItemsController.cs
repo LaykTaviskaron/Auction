@@ -46,7 +46,7 @@ namespace WebSite.Controllers
                 SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
                 SellerRating = x.SellerAccount.Rate.Value,
                 UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
-                HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(null).Max(y => y.Amout)
+                HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(new Bet()).Max(y => y.Amout)
             }).OrderByDescending(x => x.DueTo).ToList()
             : Enumerable.Empty<ItemsViewModel>();
 
@@ -95,7 +95,7 @@ namespace WebSite.Controllers
                     SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
                     SellerRating = x.SellerAccount.Rate != null ? (int?)x.SellerAccount.Rate.Value : null,
                     UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
-                    HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(null).Max(y => y.Amout)
+                    HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(new Bet()).Max(y => y.Amout)
                 }).OrderByDescending(x => x.DueTo).ToList();
             }
 
@@ -195,6 +195,7 @@ namespace WebSite.Controllers
 
             var item = this.DbContext.Items.Find(itemId);
             item.HighestBetId = id;
+            item.BuyerId = new Guid(User.Identity.GetUserId());
 
             this.DbContext.SaveChanges();
 

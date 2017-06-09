@@ -49,6 +49,21 @@ function timer(element) {
     }, 1000);
 }
 
+function confirmRecievment(itemId) {
+    $.ajax({
+        type: "POST",
+        url: '/Bet/ConfirmReceived',
+        data: JSON.stringify({
+            itemId: itemId
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    }).always(function (viewHTML) {
+        $(".received-btn").addClass('disabled');
+    });
+
+}
+
 $(document).ready(function () {
     $.each($(".timer"), function () {
         timer($(this));

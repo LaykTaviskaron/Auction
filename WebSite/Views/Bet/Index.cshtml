@@ -10,18 +10,19 @@
     {
         <h1>You don't have any bets.
         <br />
-        You can make them <a href="~/Views/Items/Index.cshtml">here</a></h1>
+        You can make them <a href="~/Items">here</a></h1>
     }
     else
     {
         foreach (var bet in ViewBag.UserBets)
         {
+            var isShowButtons = bet.Item.IsAvailable != null && !bet.Item.IsAvailable && bet.Item.BuyerId == ViewBag.CurrentUserId;
             <div class="row bet">
                 <div class="row">
                     <div class="col-sm-4">
                         <img src="@bet.Item.Image" alt="image"/>
                     </div>
-                    <div class="col-sm-8">
+                    <div class="col-sm-@(isShowButtons ? "6" : "8")">
                         <div class="row">
                             <a>
                                 <h2>@bet.Item.Name</h2></a>
@@ -30,6 +31,12 @@
                             <p>@bet.Item.Description</p>
                         </div>
                     </div>
+                    @if (isShowButtons)
+                    {
+                        <div class="col-sm-2">
+                            <input value="Confirm Payment" class="btn btn-primary received-btn" onclick="confirmRecievment('@bet.Item.Id')"/>
+                        </div>
+                    }
                 </div>
                 <div class="col-sm-offset-4 row">
                     <div class="col-sm-2 no-padding">
