@@ -13,6 +13,7 @@ using WebSite.Models;
 
 namespace WebSite.Controllers
 {
+    [Authorize]
     public class NotificationController : BaseController
     {
         //GET: Notifications

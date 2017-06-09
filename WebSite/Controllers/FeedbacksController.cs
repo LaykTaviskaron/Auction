@@ -11,6 +11,7 @@ using WebSite.Models;
 
 namespace WebSite.Controllers
 {
+    [Authorize]
     public class FeedbacksController : BaseController
     {
         public ActionResult Create(Guid? id)

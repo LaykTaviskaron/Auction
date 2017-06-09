@@ -6,6 +6,7 @@ using WebSite.Models;
 
 namespace WebSite.Controllers
 {
+    [Authorize]
     public class BetController : BaseController
     {
         // GET: Bet
