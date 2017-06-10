@@ -22,6 +22,5 @@ namespace WebSite
     
         public virtual Account Account { get; set; }
         public virtual Item Item { get; set; }
-        public virtual NotificcationType NotificcationType { get; set; }
     }
 }

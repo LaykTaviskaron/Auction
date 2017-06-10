@@ -10,6 +10,7 @@
         contentType: "application/json; charset=utf-8",
         dataType: "json"
     }).always(function (viewHTML) {
+        $(".target").removeClass("hidden");
         $(".target").html(viewHTML.responseText);
     });
 }
@@ -88,6 +89,20 @@ function timer(element) {
             element.text("EXPIRED");
         }
     }, 1000);
+}
+
+function confirmPayment(itemId) {
+    $.ajax({
+        type: "POST",
+        url: '/Items/ConfirmPayment',
+        data: JSON.stringify({
+            itemId: itemId
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    }).always(function (viewHTML) {
+        $(".payment-btn").addClass('disabled');
+    });
 }
 
 $(document).ready(function () {

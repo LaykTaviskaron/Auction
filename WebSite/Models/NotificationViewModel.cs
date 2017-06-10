@@ -11,7 +11,6 @@ namespace WebSite.Models
         public byte? NotificationTypeId { get; set; }
 
         public virtual Account Account { get; set; }
-        public virtual NotificcationType NotificcationType { get; set; }
         public virtual Item Item { get; set; }
     }
 }

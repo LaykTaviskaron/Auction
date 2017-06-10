@@ -48,7 +48,7 @@ namespace WebSite.Controllers
                 SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
                 SellerRating = x.SellerAccount.Rate.Value,
                 UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
-                HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(new Bet()).Max(y => y.Amout)
+                HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty().Max(y => y.Amout)
             }).OrderByDescending(x => x.DueTo).ToList()
             : Enumerable.Empty<ItemsViewModel>();
 
@@ -57,19 +57,8 @@ namespace WebSite.Controllers
         private IEnumerable<ItemsViewModel> GetMyItems()
         {
             var currentUserId = User.Identity.GetUserId();
-            var currentUser = this.DbContext.Accounts.First();
-            //ViewBag.Hottest = this.DbContext.Items.OrderBy(y => y.DueDateTime).ToList().Take(10);
-            ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
-            this.DbContext.Categories.ForEach(x =>
-            {
-                ViewBag.ByCategories.Add(
-                    x.Name,
-                    this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
-            });
-
-            ViewBag.Categories = this.DbContext.Categories.ToList();
-            ViewBag.Items = this.DbContext.Items.Any() ? this.DbContext.Items.Where(x => x.SellerId == Guid.Parse(currentUserId))
-                                                                .Select(x => new ItemsViewModel
+            ViewBag.CurrentUserId = currentUserId;
+            ViewBag.Items = this.DbContext.Items.Any() ? this.DbContext.Items.Where(x => x.SellerId == new Guid(currentUserId)).Select(x => new ItemsViewModel
             {
                 Id = x.Id,
                 Name = x.Name,
@@ -80,7 +69,9 @@ namespace WebSite.Controllers
                 SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
                 SellerRating = x.SellerAccount.Rate.Value,
                 UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
-                HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(null).Max(y => y.Amout)
+                HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(null).Max(y => y.Amout),
+                IsReceived = x.IsReceived.Value,
+                IsAvailable = x.IsAvailable.Value
             }).OrderByDescending(x => x.DueTo).ToList()
             : Enumerable.Empty<ItemsViewModel>();
 
@@ -115,11 +106,11 @@ namespace WebSite.Controllers
 
                 if (filterModel.Features != null && filterModel.Features.Any())
                 {
-                    var feature =
-                        this.DbContext.Specifications.FirstOrDefault(x => filterModel.Features.Contains(x.SelectedValue));
-                    if (feature != null)
+                    var features = this.DbContext.Specifications.Where(x => filterModel.Features.Contains(x.SelectedValue));
+
+                    if (features != null)
                     {
-                        ids.Add(feature.Id);
+                        ids.AddRange(features.Select(x => (Guid)x.ItemId));
                     }
 
                     items = items.Where(x => ids.Contains(x.Id)).ToList();
@@ -184,6 +175,24 @@ namespace WebSite.Controllers
                 }).ToList();
 
             return PartialView("Feature");
+        }
+
+        [HttpPost]
+        public HttpStatusCodeResult ConfirmPayment(Guid itemId)
+        {
+            var item = this.DbContext.Items.Find(itemId);
+            item.IsPayed = true;
+            this.DbContext.Notifications.Add(new Notification
+            {
+                Id = Guid.NewGuid(),
+                ItemId = itemId,
+                ReceiverId = item.BuyerId.Value,
+                Message = $"Item {item.Name} has been payed. Confirm receivement when you'll be ready."
+            });
+
+            this.DbContext.SaveChanges();
+
+            return new HttpStatusCodeResult(200);
         }
 
         [HttpPost]
@@ -257,6 +266,7 @@ namespace WebSite.Controllers
             item.HighestBetId = null;
             item.Image = this.GetImage();
             item.SellerId = new Guid(User.Identity.GetUserId());
+            item.IsAvailable = true;
 
             if (ModelState.IsValid)
             {

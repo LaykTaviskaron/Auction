@@ -16,7 +16,7 @@
     {
         foreach (var bet in ViewBag.UserBets)
         {
-            var isShowButtons = bet.Item.IsAvailable != null && !bet.Item.IsAvailable && bet.Item.BuyerId == ViewBag.CurrentUserId;
+            var isShowButtons = bet.Item.IsAvailable != null && !bet.Item.IsAvailable && bet.Item.BuyerId == ViewBag.CurrentUserId && bet.Item.IsPayed;
             <div class="row bet">
                 <div class="row">
                     <div class="col-sm-4">

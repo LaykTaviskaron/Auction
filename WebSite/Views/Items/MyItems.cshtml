@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WebSite.Item>
+
+@{
+    ViewBag.Title = "Aviable auctions";
+}
+
+<script type="text/javascript" src="~/Scripts/items.js"></script>
+
+<h2>Your items</h2>
+
+<div class="col-sm-12">
+@foreach (var item in ViewBag.Items)
+{
+    var isShowButtons = item.IsAvailable != null && !item.IsAvailable && item.SellerId == ViewBag.CurrentUserId;
+
+    <div class="row items-all">
+        <div class="row">
+            <a href="/Items/Details/@item.Id">
+                <div class="col-sm-4">
+                    <img src="@item.Image" alt="image" />
+                </div>
+                <div class="col-sm-@(isShowButtons ? "6" : "8")">
+                    <div class="row">
+                        <h2>@item.Name</h2>
+                    </div>
+                    <div class="row">
+                        @item.Description
+                    </div>
+                </div>
+                @if (isShowButtons)
+                {
+                    <div class="col-sm-2">
+                        <input value="Confirm Payment" class="btn btn-primary payment-btn" onclick="confirmPayment('@item.Id')" />
+                    </div>
+                }
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                Your bet: @item.UsersBet
+            </div>
+            <div class="col-sm-2">
+                Highest bet: @item.HighestBet
+            </div>
+            <div class="col-sm-4">
+                Time to end: <span class="timer" time="@item.DueTo"></span>
+            </div>
+            <div class="col-sm-4">
+                Seller:
+
+                <a href="/Feedbacks/Create/@item.SellerId">
+                    @item.SellerName
+                </a>
+                <br />
+                @if (item.SellerRating != null)
+                {
+                    for (int i = 0; i < item.SellerRating; i++)
+                    {
+                        <span class="glyphicon glyphicon-star"></span>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+    <hr />
+}
+</div>

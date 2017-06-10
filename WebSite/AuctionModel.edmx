@@ -86,13 +86,6 @@
           <Property Name="ReceiverId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="NotificationTypeId" Type="tinyint" />
         </EntityType>
-        <EntityType Name="NotificcationType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="tinyint" Nullable="false" />
-          <Property Name="Name" Type="nvarchar(max)" />
-        </EntityType>
         <EntityType Name="Specifications">
           <Key>
             <PropertyRef Name="Id" />
@@ -258,18 +251,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="R_7">
-          <End Role="NotificcationType" Type="Self.NotificcationType" Multiplicity="0..1" />
-          <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NotificcationType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="NotificationTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="AuctionModelStoreContainer">
           <EntitySet Name="Account" EntityType="Self.Account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bet" EntityType="Self.Bet" Schema="dbo" store:Type="Tables" />
@@ -279,7 +260,6 @@
           <EntitySet Name="Feedback" EntityType="Self.Feedback" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="NotificcationType" EntityType="Self.NotificcationType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Specifications" EntityType="Self.Specifications" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="R_13" Association="Self.R_13">
             <End Role="Account" EntitySet="Account" />
@@ -333,10 +313,6 @@
             <End Role="Account" EntitySet="Account" />
             <End Role="Notification" EntitySet="Notification" />
           </AssociationSet>
-          <AssociationSet Name="R_7" Association="Self.R_7">
-            <End Role="NotificcationType" EntitySet="NotificcationType" />
-            <End Role="Notification" EntitySet="Notification" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -351,7 +327,6 @@
           <EntitySet Name="Feedbacks" EntityType="AuctionModel.Feedback" />
           <EntitySet Name="Items" EntityType="AuctionModel.Item" />
           <EntitySet Name="Notifications" EntityType="AuctionModel.Notification" />
-          <EntitySet Name="NotificcationTypes" EntityType="AuctionModel.NotificcationType" />
           <EntitySet Name="Specifications" EntityType="AuctionModel.Specification" />
           <AssociationSet Name="R_13" Association="AuctionModel.R_13">
             <End Role="Account" EntitySet="Accounts" />
@@ -403,10 +378,6 @@
           </AssociationSet>
           <AssociationSet Name="R_5" Association="AuctionModel.R_5">
             <End Role="Item" EntitySet="Items" />
-            <End Role="Notification" EntitySet="Notifications" />
-          </AssociationSet>
-          <AssociationSet Name="R_7" Association="AuctionModel.R_7">
-            <End Role="NotificcationType" EntitySet="NotificcationTypes" />
             <End Role="Notification" EntitySet="Notifications" />
           </AssociationSet>
         </EntityContainer>
@@ -514,15 +485,6 @@
           <Property Name="NotificationTypeId" Type="Byte" />
           <NavigationProperty Name="Account" Relationship="AuctionModel.R_6" FromRole="Notification" ToRole="Account" />
           <NavigationProperty Name="Item" Relationship="AuctionModel.R_5" FromRole="Notification" ToRole="Item" />
-          <NavigationProperty Name="NotificcationType" Relationship="AuctionModel.R_7" FromRole="Notification" ToRole="NotificcationType" />
-        </EntityType>
-        <EntityType Name="NotificcationType">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Byte" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Notifications" Relationship="AuctionModel.R_7" FromRole="NotificcationType" ToRole="Notification" />
         </EntityType>
         <EntityType Name="Specification">
           <Key>
@@ -691,18 +653,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="R_7">
-          <End Type="AuctionModel.NotificcationType" Role="NotificcationType" Multiplicity="0..1" />
-          <End Type="AuctionModel.Notification" Role="Notification" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NotificcationType">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Notification">
-              <PropertyRef Name="NotificationTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -794,14 +744,6 @@
                 <ScalarProperty Name="ReceiverId" ColumnName="ReceiverId" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NotificcationTypes">
-            <EntityTypeMapping TypeName="AuctionModel.NotificcationType">
-              <MappingFragment StoreEntitySet="NotificcationType">
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

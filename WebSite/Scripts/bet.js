@@ -61,7 +61,6 @@ function confirmRecievment(itemId) {
     }).always(function (viewHTML) {
         $(".received-btn").addClass('disabled');
     });
-
 }
 
 $(document).ready(function () {

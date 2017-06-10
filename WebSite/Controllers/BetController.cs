@@ -40,7 +40,7 @@ namespace WebSite.Controllers
                 Id = Guid.NewGuid(),
                 ItemId = itemId,
                 ReceiverId = item.SellerId,
-                Message = $"Your item {item.Name} has been received. Confirm payment, when you'll be ready."
+                Message = $"Your item {item.Name} has been received."
             });
             this.DbContext.SaveChanges();
 

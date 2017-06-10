@@ -23,5 +23,9 @@ namespace WebSite.Models
         public string SellerName { get; set; }
 
         public int? SellerRating { get; set; }
+
+        public bool? IsAvailable { get; set; }
+
+        public bool? IsReceived { get; set; }
     }
 }

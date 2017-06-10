@@ -33,7 +33,6 @@ namespace WebSite
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
-        public virtual DbSet<NotificcationType> NotificcationTypes { get; set; }
         public virtual DbSet<Specification> Specifications { get; set; }
     }
 }

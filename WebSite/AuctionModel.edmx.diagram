@@ -13,7 +13,6 @@
         <EntityTypeShape EntityType="AuctionModel.Feedback" Width="1.5" PointX="3" PointY="11.875" />
         <EntityTypeShape EntityType="AuctionModel.Item" Width="1.5" PointX="3" PointY="4.875" />
         <EntityTypeShape EntityType="AuctionModel.Notification" Width="1.5" PointX="5.25" PointY="6" />
-        <EntityTypeShape EntityType="AuctionModel.NotificcationType" Width="1.5" PointX="3" PointY="15.5" />
         <EntityTypeShape EntityType="AuctionModel.Specification" Width="1.5" PointX="5.25" PointY="2.125" />
         <AssociationConnector Association="AuctionModel.R_13" />
         <AssociationConnector Association="AuctionModel.R_15" />
@@ -28,7 +27,6 @@
         <AssociationConnector Association="AuctionModel.R_19" />
         <AssociationConnector Association="AuctionModel.R_23" />
         <AssociationConnector Association="AuctionModel.R_5" />
-        <AssociationConnector Association="AuctionModel.R_7" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
