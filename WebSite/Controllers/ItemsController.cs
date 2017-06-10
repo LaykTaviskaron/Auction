@@ -26,7 +26,8 @@ namespace WebSite.Controllers
         {
             var currentUserId = User.Identity.GetUserId();
             var currentUser = this.DbContext.Accounts.First();
-            ViewBag.Hottest = this.DbContext.Items.OrderBy(y => y.DueDateTime).ToList().Take(10);
+            ViewBag.Hottest = this.DbContext.Items.Where(x => x.IsAvailable == true)
+                .OrderBy(y => y.DueDateTime).ToList().Take(10);
             ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
             this.DbContext.Categories.ForEach(x =>
             {
@@ -53,11 +54,50 @@ namespace WebSite.Controllers
 
             return ViewBag.Items;
         }
+        private IEnumerable<ItemsViewModel> GetMyItems()
+        {
+            var currentUserId = User.Identity.GetUserId();
+            var currentUser = this.DbContext.Accounts.First();
+            //ViewBag.Hottest = this.DbContext.Items.OrderBy(y => y.DueDateTime).ToList().Take(10);
+            ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
+            this.DbContext.Categories.ForEach(x =>
+            {
+                ViewBag.ByCategories.Add(
+                    x.Name,
+                    this.DbContext.Items.OrderBy(y => y.DueDateTime).Where(y => y.CategoryId == x.Id).ToList());
+            });
+
+            ViewBag.Categories = this.DbContext.Categories.ToList();
+            ViewBag.Items = this.DbContext.Items.Any() ? this.DbContext.Items.Where(x => x.SellerId == Guid.Parse(currentUserId))
+                                                                .Select(x => new ItemsViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                DueTo = x.DueDateTime,
+                Image = x.Image,
+                SellerId = x.SellerId,
+                SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
+                SellerRating = x.SellerAccount.Rate.Value,
+                UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
+                HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(null).Max(y => y.Amout)
+            }).OrderByDescending(x => x.DueTo).ToList()
+            : Enumerable.Empty<ItemsViewModel>();
+
+            return ViewBag.Items;
+        }
 
         //GET: Items
         public ActionResult Index()
         {
             GetAll();
+            return View();
+        }
+
+        //GET: MyItems
+        public ActionResult MyItems()
+        {
+            GetMyItems();
             return View();
         }
 

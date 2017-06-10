@@ -40,7 +40,7 @@ namespace WebSite.Services
             context.Notifications.Add(new Notification
             {
                 Id = Guid.NewGuid(),
-                Message = "Auction has been finished!",
+                Message = "Auction has been finished!\nPlease contact buyer via email: " + item.BuyerAccount.Email,
                 ReceiverId = item.SellerId
             });
 
