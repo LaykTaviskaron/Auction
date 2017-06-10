@@ -25,6 +25,7 @@ namespace WebSite.Services
             var context = new AuctionEntities();
 
             var item = context.Items.Find(itemId);
+            item.IsAvailable = false;
 
             if (item.BuyerId != null)
             {

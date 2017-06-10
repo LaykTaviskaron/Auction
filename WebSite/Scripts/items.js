@@ -54,6 +54,9 @@ function clearFilter() {
         dataType: "json"
     }).always(function (viewHTML) {
         $(".item-target").html(viewHTML.responseText);
+        $.each($(".timer"), function () {
+            timer($(this));
+        });
     });
 
 }
