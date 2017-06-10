@@ -71,7 +71,8 @@ namespace WebSite.Controllers
                 UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
                 HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(null).Max(y => y.Amout),
                 IsReceived = x.IsReceived.Value,
-                IsAvailable = x.IsAvailable.Value
+                IsAvailable = x.IsAvailable.Value,
+                IsPayed = x.IsPayed
             }).OrderByDescending(x => x.DueTo).ToList()
             : Enumerable.Empty<ItemsViewModel>();
 

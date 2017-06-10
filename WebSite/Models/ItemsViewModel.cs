@@ -27,5 +27,7 @@ namespace WebSite.Models
         public bool? IsAvailable { get; set; }
 
         public bool? IsReceived { get; set; }
+
+        public bool? IsPayed { get; set; }
     }
 }

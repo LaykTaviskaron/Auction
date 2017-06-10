@@ -11,7 +11,7 @@
 <div class="col-sm-12">
 @foreach (var item in ViewBag.Items)
 {
-    var isShowButtons = item.IsAvailable != null && !item.IsAvailable && item.SellerId == ViewBag.CurrentUserId;
+    var isShowButtons = item.IsAvailable != null && !item.IsAvailable && item.SellerId.ToString() == ViewBag.CurrentUserId;
 
     <div class="row items-all">
         <div class="row">
@@ -27,13 +27,14 @@
                         @item.Description
                     </div>
                 </div>
+            </a>
                 @if (isShowButtons)
                 {
                     <div class="col-sm-2">
-                        <input value="Confirm Payment" class="btn btn-primary payment-btn" onclick="confirmPayment('@item.Id')" />
+                        <input type="button" value="Confirm Payment" class="btn btn-primary payment-btn @(item.IsPayed ? "disabled" : "")" onclick="confirmPayment('@item.Id')" />
                     </div>
                 }
-            </a>
+            
         </div>
         <div class="row">
             <div class="col-sm-2">

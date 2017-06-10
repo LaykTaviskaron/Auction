@@ -34,7 +34,7 @@
                     @if (isShowButtons)
                     {
                         <div class="col-sm-2">
-                            <input value="Confirm Payment" class="btn btn-primary received-btn" onclick="confirmRecievment('@bet.Item.Id')"/>
+                            <input type="button" value="Confirm Receivment" class="btn btn-primary received-btn @(bet.Item.IsReceived ? "disabled" : "")" onclick="confirmRecievment('@bet.Item.Id')"/>
                         </div>
                     }
                 </div>
