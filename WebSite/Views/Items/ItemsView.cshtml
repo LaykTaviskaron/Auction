@@ -21,7 +21,7 @@
                 Your bet: @item.UsersBet
             </div>
             <div class="col-sm-2">
-                Highest bet: @item.HighestBet
+                Highest bet: @(item.HighestBet == 0 ? "" : item.HighestBet)
             </div>
             <div class="col-sm-4">
                 Time to end: <span class="timer" time="@item.DueTo"></span>

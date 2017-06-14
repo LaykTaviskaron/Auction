@@ -22,7 +22,8 @@ namespace WebSite.Controllers
             var currentUserId = User.Identity.GetUserId();
             var currentUser = this.DbContext.Accounts.Find(new Guid(currentUserId));
 
-            ViewBag.Notifications = this.DbContext.Notifications.Select(x => new NotificationViewModel
+            ViewBag.Notifications = this.DbContext.Notifications.Where(x => x.ReceiverId.ToString() == currentUserId)
+                .Select(x => new NotificationViewModel
             {
                 Id = x.Id,
                 Message = x.Message

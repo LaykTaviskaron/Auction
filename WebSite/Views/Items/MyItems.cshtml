@@ -7,6 +7,14 @@
 <script type="text/javascript" src="~/Scripts/items.js"></script>
 
 <h2>Your items</h2>
+@if (ViewBag.Items.Count == 0)
+{
+    <h1>
+        You don't have any items.
+        <br />
+        You can create a new auction <a href="~/Items/Create">here</a>
+    </h1>
+}
 
 <div class="col-sm-12">
 @foreach (var item in ViewBag.Items)

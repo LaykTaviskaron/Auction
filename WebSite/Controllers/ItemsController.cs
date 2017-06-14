@@ -25,7 +25,6 @@ namespace WebSite.Controllers
         private IEnumerable<ItemsViewModel> GetAll()
         {
             var currentUserId = User.Identity.GetUserId();
-            var currentUser = this.DbContext.Accounts.First();
             ViewBag.Hottest = this.DbContext.Items.Where(x => x.IsAvailable == true)
                 .OrderBy(y => y.DueDateTime).ToList().Take(10);
             ViewBag.ByCategories = new Dictionary<string, IEnumerable<Item>>();
@@ -47,7 +46,7 @@ namespace WebSite.Controllers
                 SellerId = x.SellerId,
                 SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
                 SellerRating = x.SellerAccount.Rate.Value,
-                UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
+                UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id && x.BuyerId.ToString() == currentUserId) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
                 HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty().Max(y => y.Amout)
             }).OrderByDescending(x => x.DueTo).ToList()
             : Enumerable.Empty<ItemsViewModel>();
@@ -116,6 +115,7 @@ namespace WebSite.Controllers
 
                     items = items.Where(x => ids.Contains(x.Id)).ToList();
                 }
+                var currentUserId = User.Identity.GetUserId();
 
                 ViewBag.Items = items.Select(x => new ItemsViewModel
                 {
@@ -127,7 +127,7 @@ namespace WebSite.Controllers
                     SellerId = x.SellerId,
                     SellerName = x.SellerAccount.FirstName + " " + x.SellerAccount.LastName,
                     SellerRating = x.SellerAccount.Rate != null ? (int?)x.SellerAccount.Rate.Value : null,
-                    UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
+                    UsersBet = x.Bets.FirstOrDefault(y => y.ItemId == x.Id && x.BuyerId.ToString() == currentUserId) != null ? (decimal?)(x.Bets.FirstOrDefault(y => y.ItemId == x.Id).Amout) : null,
                     HighestBet = x.Bets.ToList().Where(y => y.ItemId == x.Id).DefaultIfEmpty(new Bet()).Max(y => y.Amout)
                 }).OrderByDescending(x => x.DueTo).ToList();
             }

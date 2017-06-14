@@ -83,22 +83,6 @@ namespace WebSite.Controllers
             return View(feedback);
         }
 
-        // POST: Feedbacks/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Rate,Description,UserId")] Feedback feedback)
-        {
-            if (ModelState.IsValid)
-            {
-                this.DbContext.Entry(feedback).State = EntityState.Modified;
-                this.DbContext.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.UserId = new SelectList(this.DbContext.Accounts, "Id", "FirstName", feedback.UserId);
-            return View(feedback);
-        }
 
         // GET: Feedbacks/Delete/5
         public ActionResult Delete(Guid? id)
